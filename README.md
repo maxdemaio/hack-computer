@@ -2,6 +2,13 @@
 
 Implementation of a computer system as described in the book "The Elements of Computing Systems" by Nisan and Schocken.
 
+## Blog Posts
+
+Throughout this project I published a series of blog posts:
+
+- [Nand to Tetris - Boolean Functions & Gate Logic](https://www.maxdemaio.com/posts/boolean-functions-and-gate-logic)
+- [Nand to Tetris - Boolean Arithmetic & the ALU](https://www.maxdemaio.com/posts/boolean-arithmetic-alu)
+
 ## Hardware platform
 
 ### 1. Boolean logic
@@ -64,10 +71,3 @@ The timing chip is based on a large number of DFF gates
 10. Compiler I: Syntax analysis
 11. Compiler II: code generation
 12. Operating System
-
-## Blog Posts
-
-Throughout the course of this project I published a series of blog posts:
-
-- [Nand to Tetris - Boolean Functions & Gate Logic](https://www.maxdemaio.com/posts/boolean-functions-and-gate-logic)
-- [Nand to Tetris - Boolean Arithmetic & the ALU](https://www.maxdemaio.com/posts/boolean-arithmetic-alu)
