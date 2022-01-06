@@ -14,7 +14,6 @@ CHIP And {
     OUT out;
 
     PARTS:
-    // Put your code here:
     // Builtin nand 
     Nand(a=a, b=b, out=nandout);
     // Not
