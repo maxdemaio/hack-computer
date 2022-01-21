@@ -69,9 +69,12 @@
     D=M+1	// set D register to next pixel of SCREEN
 
     //*** D=KBD-SCREEN ***
+    // 256 rows of 512 pixels per row
+    // only 32 registers/row bc each has 16-bit word width
     // D = 24576 - 16384
-    // D = 8192 (steadily will decrease as we increment screen pixels)
-    // (8192bits) * (1pixel/16bits) = 512 pixels
+    // D = 8192 registers (steadily will decrease as we increment screen pixels)
+    // (8192registers) * (1row/32registers) = 256 rows
+
     @KBD
     D=A-D	
 
@@ -80,7 +83,7 @@
     A=M
 
     @CHANGE
-    D;JGT	// if D > 0 we change next pixel
+    D;JGT	// if D > 0 we change next pixel, else we restart screen
 
     /////////////////////////
     @RESTART
