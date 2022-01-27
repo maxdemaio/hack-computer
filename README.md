@@ -41,20 +41,20 @@ Various basic logic gates are introduced, and all gates are implemented based on
 - Boolean chip
 - Arithmetic chip
 
-#### Timing Chip
+#### Sequential Chip
 
 The timing chip is based on a large number of DFF gates
 
 - Clock
-- Trigger
+- Flip flop
 - Register
 - RAM
 - Counter
 
 ### 4. Machine language
 
-- A command
-- C command
+- A instruction
+- C instruction
 - Addressing mode: direct addressing, immediate addressing, indirect addressing
 
 ### 5. Computer Architecture
