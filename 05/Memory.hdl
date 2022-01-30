@@ -1,0 +1,65 @@
+// This file is part of www.nand2tetris.org
+// and the book "The Elements of Computing Systems"
+// by Nisan and Schocken, MIT Press.
+// File name: projects/05/Memory.hdl
+
+/**
+ * The complete address space of the Hack computer's memory,
+ * including RAM and memory-mapped I/O. 
+ * The chip facilitates read and write operations, as follows:
+ *     Read:  out(t) = Memory[address(t)](t)
+ *     Write: if load(t-1) then Memory[address(t-1)](t) = in(t-1)
+ * In words: the chip always outputs the value stored at the memory 
+ * location specified by address. If load==1, the in value is loaded 
+ * into the memory location specified by address. This value becomes 
+ * available through the out output from the next time step onward.
+ * Address space rules:
+ * Only the upper 16K+8K+1 words of the Memory chip are used. 
+ * Access to address>0x6000 is invalid. Access to any address in 
+ * the range 0x4000-0x5FFF results in accessing the screen memory 
+ * map. Access to address 0x6000 results in accessing the keyboard 
+ * memory map. The behavior in these addresses is described in the 
+ * Screen and Keyboard chip specifications given in the book.
+
+// 0000 000 RAM start
+// 0011 FFF RAM end
+// 0100 000 Screen start
+// 0101 FFF Screen end
+// 0110 000 Keyboard
+ */
+
+CHIP Memory {
+    IN in[16], load, address[15];
+    OUT out[16];
+
+    PARTS:
+    // 3 bit select, 111 = 8... however we really only have 24K RAM
+    // (RAM16K, SCREEN, KBD)
+    // We have to account if something goes out of memory range
+
+    // Normal DMUX is comprised of 2 ands and a not
+    // selects b if the sel is true
+    // DMUX selects a if sel is false
+
+    /** DMUX4Way has 2 bit selector with 4 outputs
+    * {a, b, c, d} = {in, 0, 0, 0} if sel == 00 (a)
+    *                {0, in, 0, 0} if sel == 01 (b)
+    *                {0, 0, in, 0} if sel == 10 (c)
+    *                {0, 0, 0, in} if sel == 11 (d)
+    */
+    DMux4Way(in=load, sel=address[13..14], a=loadram1, b=loadram2, c=loadscreen, d=loadkbd);
+    // Are we accessing the data memory (16K takes up 2 outputs)?
+    // 1 bit Boolean gets stored in loadram
+	Or(a=loadram1, b=loadram2, out=loadram);
+
+    // If neither RAM16K (data memory) or Screen chosen, 
+    // 14 bits that select register in RAM16k
+    RAM16K(in=in, load=loadram, address=address[0..13], out=ramout);
+
+    // 13 bits that select register in 8K screen
+    Screen(in=in, load=loadscreen, address=address[0..12], out=scrout);
+    Keyboard(out=kbout);
+    Mux4Way16(a=ramout, b=ramout, c=scrout, d=kbout, sel=address[13..14], out=out);
+
+
+}
