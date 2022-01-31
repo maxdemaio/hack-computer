@@ -61,8 +61,8 @@ The timing chip is based on a large number of DFF gates
 
 - RAM
 - CPU
-- Register
-- input Output
+- ROM
+- I/O
 
 ## Software Hierarchy System
 
