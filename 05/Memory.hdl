@@ -33,7 +33,7 @@ CHIP Memory {
     OUT out[16];
 
     PARTS:
-    // 3 bit select, 111 = 8... however we really only have 24K RAM
+    // 3 bit select, 111 = 8... however we really only need 24K RAM
     // (RAM16K, SCREEN, KBD)
     // We have to account if something goes out of memory range
 

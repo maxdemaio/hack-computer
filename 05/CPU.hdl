@@ -39,6 +39,77 @@ CHIP CPU {
         pc[15];          // address of next instruction
 
     PARTS:
-    // Put your code here:
-    // Decode for C input across 
+    // See cpuDiagram.PNG
+
+    // ** Set up control **
+    // Decode for A or C instruction
+    // If C instruction we pass whole thing
+    // If A instruction we pass a bus of 0's [0,0,0,...] for control
+    Mux16(a=false, b=instruction, sel=instruction[15], 
+        // Jump bits
+        out[0]=cJGT,
+        out[1]=cJEQ,
+        out[2]=cJLT,
+        // Dest bits
+        out[3]=cDestM,
+        out[3]=writeM,
+        out[4]=cDestD,
+        out[5]=cDestA,
+        // 7 control bits of ALU
+        out[6]=cAluNo,
+        out[7]=cAluF,
+        out[8]=cAluNy,
+        out[9]=cAluZy,
+        out[10]=cAluNx,
+        out[11]=cAluZx,
+        out[12]=cAorM,
+        // 2 unused bits (13/14)
+        // A or C instruction bit (1=c, 0=a)
+        out[15]=cType); 
+
+        // Setup control from ALU out to PC
+        Or(a=zerop, b=negp, out=lteq);
+        // Determines if ALU output was greater than 0 or not
+        Not(in=lteq, out=posp);
+    
+    // ** ALU **
+    ALU(x=xIn, y=yIn, 
+        zx=cAluZx, 
+        nx=cAluNx, 
+        zy=cAluZy, 
+        ny=cAluNy, 
+        f=cAluF, 
+        no=cAluNo, 
+        out=aluOut, out=outM, // Route to memory (writeM decides if we store)
+        zr=zerop, 
+        ng=negp);
+
+    // ** A-reg logic **
+    // If it is a c-instruction, utilize the aluOut
+    // Else, it's an a-instruction
+    Mux16(a=instruction, b=aluOut, sel=cType, out=aMuxOut);
+    // Treat a-reg as memory index or as its contents
+    Mux16(a=aRegOut, b=inM, sel=cAorM, out=yIn);
+    // Loading the A-reg
+    // Check if cType is "a-instruction" or cDestA is true 
+    // you'd load into A-reg for both
+    Not(in=cType, out=notCType);
+    Or(a=notCType, b=cDestA, out=loadA);
+    ARegister(in=aMuxOut, load=loadA, out=aRegOut, out[0..14]=addressM);
+
+    // ** D-reg logic **
+    DRegister(in=aluOut, load=cDestD, out=xIn);
+
+    // ** Jump logic **
+    // If any of these are true, we'd want to change PC
+    // To point to the jump destination of next instruction
+    // These 3 ands determine if the jump conditions are true 
+    // Jump bits against ALU control output (computation out)
+    And(a=cJLT, b=negp, out=JLT);
+    And(a=cJEQ, b=zerop, out=JEQ);
+    And(a=cJGT, b=posp, out=JGT);
+    Or(a=JEQ, b=JLT, out=JLE);
+    Or(a=JLE, b=JGT, out=jump);
+    // Load with contents of the A-reg
+    PC(in=aRegOut, load=jump, inc=true, reset=reset, out[0..14]=pc, out[15]=false);
 }
