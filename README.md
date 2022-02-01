@@ -13,7 +13,7 @@ Throughout this project I published a series of blog posts:
 
 ## Hardware platform
 
-### 1. Boolean logic
+### 1. Boolean Logic
 
 Various basic logic gates are introduced, and all gates are implemented based on nand gates
 
@@ -24,7 +24,7 @@ Various basic logic gates are introduced, and all gates are implemented based on
 - or or16 or8way
 - xor
 
-### 2. Boolean operations
+### 2. Boolean Arithmetic
 
 - Binary number
 - Binary addition
@@ -34,7 +34,7 @@ Various basic logic gates are introduced, and all gates are implemented based on
 - Incrementer
 - ALU
 
-### 3. Temporal logic
+### 3. Sequential Logic
 
 #### Combination Chip
 
@@ -61,8 +61,8 @@ The timing chip is based on a large number of DFF gates
 
 - RAM
 - CPU
-- Register
-- input Output
+- ROM
+- I/O
 
 ## Software Hierarchy System
 
