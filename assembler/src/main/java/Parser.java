@@ -3,24 +3,18 @@ import enums.Command;
 
 public class Parser {
 
-    void parse() {
-
+    // Parse line given from Assembler
+    Command parse(String line) {
+        // Remove whitespace and return command type
+        String cleanLine = removeWhitespace(line);
+        return commandType(cleanLine);
     }
 
-    boolean hasCommands() {
-        /* Are there more commands in the input? */
-        return false;
+    String removeWhitespace(String line) {
+        return "I'm a clean line!";
     }
 
-    void advance() {
-        /*
-        Reads the next command from the input and makes it the current
-        command. Should be called only if hasMoreCommands() is true.
-        Initially there is no current command.
-        */
-    }
-
-    Command commandType() {
+    Command commandType(String line) {
         return Command.A_COMMAND;
     }
 
