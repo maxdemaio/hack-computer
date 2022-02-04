@@ -11,7 +11,11 @@ public class Parser {
     }
 
     String removeWhitespace(String line) {
-        return "I'm a clean line!";
+        return line.replaceAll("\\s", "");
+    }
+
+    String removeComments(String line) {
+        return line.replaceAll("//.+", "");
     }
 
     Command commandType(String line) {

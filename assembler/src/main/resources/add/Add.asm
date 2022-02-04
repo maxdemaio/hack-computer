@@ -7,7 +7,8 @@
 
 @2
 D=A
+
 @3
-D=D+A
+D=D+A // Testing testerino
 @0
 M=D
