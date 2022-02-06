@@ -6,6 +6,7 @@ public class Parser {
     // Start storing variables at index 16 of memory
     // For each storage of a new variable, we'd increment this value
     // This way we can store it in the next adjacent memory address
+    // Set memory address of variable, memIndex++;
     public static int memIndex = 16;
 
     String cleanLine(String line) {
@@ -49,18 +50,36 @@ public class Parser {
     }
 
     String dest(String line) {
+        // Example) D=D-A;JEQ
+        // This would get "D"
+        // If it's not in the Hashtable, throw exception
         return "example dest";
     }
 
     String comp(String line) {
+        // Example) D=D-A;JEQ
+        // This would get "D-A"
+        // If it's not in the Hashtable, throw exception
         return "example comp";
     }
 
     String jump(String line) {
+        // Example) D=D-A;JEQ
+        // This would get "JEQ"
+        // If it's not in the Hashtable, throw exception
         return "example jump";
     }
 
-    Boolean isNum(String symbol) {
+    Boolean stringIsNum(String symbol) {
+        // Check if A-instruction is a number or not
+        if (symbol == null) {
+            return false;
+        }
+        try {
+            int i = Integer.parseInt(symbol);
+        } catch (NumberFormatException nfe) {
+            return false;
+        }
         return true;
     }
 

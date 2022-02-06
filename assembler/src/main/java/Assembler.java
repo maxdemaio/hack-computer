@@ -39,11 +39,17 @@ public class Assembler {
                 // A-command logic
                 if (currCommand == Command.A_COMMAND) {
                     // If it's a number, convert to binary and write to ouput
-                    if (myParser.isNum(symbol)) {
+                    if (myParser.stringIsNum(symbol)) {
                         String binaryPrelim = Integer.toBinaryString(Integer.parseInt(symbol));
                         String binaryFinal = myParser.addZeros(binaryPrelim);
                         line = binaryFinal;
                     }
+                } else if (currCommand == Command.C_COMMAND) {
+                    System.out.println("C command!!");
+
+                } else if (currCommand == Command.L_COMMAND) {
+                    System.out.println("L command!!");
+
                 }
                 // Write line to hack file string
                 hackFile = hackFile.concat(line + "\n");
