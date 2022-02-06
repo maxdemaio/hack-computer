@@ -13,7 +13,7 @@ public class Codegen {
 
 
     public Codegen() {
-        // Pair parsed commands with binary representations
+        // Pair parsed jump commands with binary representations
         jump = new HashMap<>();
         jump.put("NULL", "000");
         jump.put("JGT", "001");
@@ -24,7 +24,7 @@ public class Codegen {
         jump.put("JLE", "110");
         jump.put("JMP", "111");
 
-        // TreeMap that pairs parsed comp commands with binary representations
+        // Pair parsed comp commands with binary representations
         comp = new HashMap<>();
         comp.put("0", "0101010");
         comp.put("1", "0111111");
@@ -55,7 +55,7 @@ public class Codegen {
         comp.put("D-1", "0001110");
         comp.put("A-1", "0110010");
 
-        // TreeMap that pairs parsed dest commands with binary representations
+        // Pair parsed dest commands with binary representations
         dest = new HashMap<>();
         dest.put("NULL", "000");
         dest.put("M", "001");
