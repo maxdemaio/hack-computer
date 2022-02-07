@@ -9,13 +9,19 @@ import java.util.Scanner;
 
 public class Assembler {
     public static void main(String args[]) throws MyAssemblerException {
-//        Codegen myCodegen = new Codegen();
 
 
         // Option 1) use Scanner and just use parser for each line
         // Option 2) use Parser like a Scanner
         // This implementation uses option 1
+
+        // First pass we add symbols (variables and loop labels)
+        // To our hashmap
+        // We store the variable as the key, and the memory address as value
+        // R0 R1 R2 already given but new ones get allocated to memory
+        // per Parses static variable for memory index
         Parser myParser = new Parser();
+        Codegen myCodegen = new Codegen();
 
         File file = new File("src/main/resources/add/Add.asm");
 
@@ -44,13 +50,24 @@ public class Assembler {
                         String binaryFinal = myParser.addZeros(binaryPrelim);
                         line = binaryFinal;
                     }
+                    // C-command logic
+                    // **Note: both dest and jump are optional**
                 } else if (currCommand == Command.C_COMMAND) {
-                    System.out.println("C command!!");
-
+                    System.out.println("C command!!, Printing dest,comp,jump");
+                    String dest = myParser.dest(line);
+                    String comp = myParser.comp(line);
+                    String jump = myParser.jump(line);
+                    System.out.println(dest);
+                    System.out.println(comp);
+                    System.out.println(jump);
+                    // Take dest,comp,jump and convert them to binary
+                    line = "111" + myCodegen.getAll(comp, dest, jump);
+                    // L-command logic (LOOP)
                 } else if (currCommand == Command.L_COMMAND) {
                     System.out.println("L command!!");
-
                 }
+
+
                 // Write line to hack file string
                 hackFile = hackFile.concat(line + "\n");
             }

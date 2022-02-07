@@ -76,9 +76,11 @@ public class Codegen {
         return comp.get(mn);
     }
 
-
     public String getJump(String mn) {
         return jump.get(mn);
     }
 
+    public String getAll(String cComp, String cDest, String cJump) {
+        return getComp(cComp) + getDest(cDest) + getJump(cJump);
+    }
 }

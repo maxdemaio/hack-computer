@@ -50,24 +50,52 @@ public class Parser {
     }
 
     String dest(String line) {
-        // Example) D=D-A;JEQ
-        // This would get "D"
+        // Example) D=D-A;JEQ - this would get "D"
+        // Example) 0;JMP - this would get NULL
         // If it's not in the Hashtable, throw exception
-        return "example dest";
+        String[] parts = line.split("=");
+        if (parts.length > 1) {
+            return parts[0];
+        }
+        return "NULL";
     }
 
     String comp(String line) {
-        // Example) D=D-A;JEQ
-        // This would get "D-A"
+        // Example) D=D-A;JEQ - this would get "D-A"
+        // Example) D=D-A
+        // Example) 0;JMP - this would get 0
         // If it's not in the Hashtable, throw exception
-        return "example comp";
+
+        // Example 1 (=, ;)
+        if (line.contains("=") && line.contains(";")) {
+            // [D, D-A;JEQ]
+            String[] prelimSplit = line.split("=");
+            // [D-A, JEQ]
+            String[] finalSplit = prelimSplit[1].split(";");
+            return finalSplit[0];
+        }
+        // Example 2 (=)
+        else if (line.contains("=") && !(line.contains(";"))) {
+            String[] split = line.split("=");
+            return split[1];
+        }
+        // Example 3 (;)
+        else if (line.contains(";") && !(line.contains("="))) {
+            String[] split = line.split(";");
+            return split[0];
+        }
+        return line;
     }
 
     String jump(String line) {
-        // Example) D=D-A;JEQ
-        // This would get "JEQ"
+        // Example) D=D-A;JEQ - this would get "JEQ"
+        // Example) 0;JMP (JMP)
         // If it's not in the Hashtable, throw exception
-        return "example jump";
+        String[] parts = line.split(";");
+        if (parts.length > 1) {
+            return parts[parts.length-1];
+        }
+        return "NULL";
     }
 
     Boolean stringIsNum(String symbol) {
