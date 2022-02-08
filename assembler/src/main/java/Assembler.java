@@ -1,5 +1,6 @@
 import enums.Command;
 import exceptions.MyAssemblerException;
+import jdk.incubator.foreign.LibraryLookup;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -18,19 +19,64 @@ public class Assembler {
         // First pass we add symbols (variables and loop labels)
         // To our hashmap
         // We store the variable as the key, and the memory address as value
-        // R0 R1 R2 already given but new ones get allocated to memory
-        // per Parses static variable for memory index
+        // R0 R1 R2 already given but new variables get allocated to memory
+        // per Symbol Table static variable for memory index
+        int lineCount = 0;
         Parser myParser = new Parser();
         Codegen myCodegen = new Codegen();
+        SymbolTable mySymbolTable = new SymbolTable();
+
 
         File file = new File("src/main/resources/add/Add.asm");
 
         try {
-            Scanner myScanner = new Scanner(file);
-            String hackFile = "";
-            while (myScanner.hasNext()) {
+            /*
+                FIRST PASS
+                Add symbols to symbol table
+            */
+            Scanner firstPass = new Scanner(file);
+
+            while (firstPass.hasNext()) {
+                String line = firstPass.nextLine();
+
                 // Remove whitespace and comments
-                String line = myScanner.nextLine();
+                line = myParser.cleanLine(line);
+
+                // If it was an empty line, continue to next line without writing
+                if (line.length() == 0) {
+                    continue;
+                }
+
+                Command currCommand = myParser.commandType(line);
+                String symbol = myParser.symbol(line);
+
+                // Label symbols
+                if (currCommand == Command.L_COMMAND) {
+                    // Store the location of the next instruction in the program
+                    mySymbolTable.addLabel(symbol, Integer.toString(++lineCount));
+                }
+                // Variable symbols (pre-defined already in symbol table)
+                else if (currCommand == Command.A_COMMAND) {
+                    // If it's not a number, put its value into our symbol table
+                    if (!myParser.stringIsNum(symbol)) {
+                        String binaryPrelim = Integer.toBinaryString(Integer.parseInt(symbol));
+                        String binaryFinal = myParser.addZeros(binaryPrelim);
+                        line = binaryFinal;
+                    }
+                }
+            }
+
+            /*
+                SECOND PASS
+                Convert assembly to binary
+            */
+            Scanner secondPass = new Scanner(file);
+
+            String hackFile = "";
+            while (secondPass.hasNext()) {
+                String line = secondPass.nextLine();
+
+                // Remove whitespace and comments
                 line = myParser.cleanLine(line);
 
                 // If it was an empty line, continue to next line without writing
@@ -67,7 +113,6 @@ public class Assembler {
                     System.out.println("L command!!");
                 }
 
-
                 // Write line to hack file string
                 hackFile = hackFile.concat(line + "\n");
             }
@@ -84,4 +129,5 @@ public class Assembler {
         }
 
     }
+
 }

@@ -3,11 +3,6 @@ import exceptions.MyAssemblerException;
 
 
 public class Parser {
-    // Start storing variables at index 16 of memory
-    // For each storage of a new variable, we'd increment this value
-    // This way we can store it in the next adjacent memory address
-    // Set memory address of variable, memIndex++;
-    public static int memIndex = 16;
 
     String cleanLine(String line) {
         String noWhiteSpace = removeWhitespace(line);
@@ -93,7 +88,7 @@ public class Parser {
         // If it's not in the Hashtable, throw exception
         String[] parts = line.split(";");
         if (parts.length > 1) {
-            return parts[parts.length-1];
+            return parts[parts.length - 1];
         }
         return "NULL";
     }
