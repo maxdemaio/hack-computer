@@ -12,4 +12,3 @@ D=A
 D=D+A // Testing testerino
 @0
 M=D
-0;JMP
