@@ -36,8 +36,8 @@ public class Parser {
         }
 
         if (line.contains("(")) {
-            String lClean = line.replaceAll("\\(", "");
-            String lCleanFinal = line.replaceAll("\\)", "");
+            String lCleanPrelim = line.replaceAll("\\(", "");
+            String lCleanFinal = lCleanPrelim.replaceAll("\\)", "");
             return lCleanFinal;
         }
 

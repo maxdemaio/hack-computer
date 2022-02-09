@@ -1,6 +1,5 @@
 import enums.Command;
 import exceptions.MyAssemblerException;
-import jdk.incubator.foreign.LibraryLookup;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -27,7 +26,7 @@ public class Assembler {
         SymbolTable mySymbolTable = new SymbolTable();
 
 
-        File file = new File("src/main/resources/add/Add.asm");
+        File file = new File("src/main/resources/max/MaxCopy.asm");
 
         try {
             /*
@@ -58,12 +57,12 @@ public class Assembler {
                 // Variable symbols (pre-defined already in symbol table)
                 else if (currCommand == Command.A_COMMAND) {
                     // If it's not a number, put its value into our symbol table
-                    if (!myParser.stringIsNum(symbol)) {
-                        String binaryPrelim = Integer.toBinaryString(Integer.parseInt(symbol));
-                        String binaryFinal = myParser.addZeros(binaryPrelim);
-                        line = binaryFinal;
+                    if (!myParser.stringIsNum(symbol) && !mySymbolTable.containKey(symbol)) {
+                        mySymbolTable.addVariable(symbol);
                     }
                 }
+
+                lineCount++;
             }
 
             /*

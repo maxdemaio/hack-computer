@@ -7,9 +7,9 @@ public class SymbolTable {
     // For each storage of a new variable, we'd increment this value
     // This way we can store it in the next adjacent memory address
     // Set memory address of variable, memIndex++;
-    private static int memIndex = 16;
+    public static int memIndex = 16;
 
-    private static Map<String, String> symbols;
+    public Map<String, String> symbols;
 
     public SymbolTable() {
         //  Symbol Table starting with 23 pre-defined symbols
