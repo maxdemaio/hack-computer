@@ -6,6 +6,8 @@ import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Scanner;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class Assembler {
     public static void main(String args[]) throws MyAssemblerException {
@@ -24,8 +26,13 @@ public class Assembler {
         Codegen myCodegen = new Codegen();
         SymbolTable mySymbolTable = new SymbolTable();
 
+        if (args[0] == null || args[0].trim().isEmpty()) {
+            System.out.println("You need to specify a path to an Assembly file!");
+            return;
+        }
 
-        File file = new File("src/main/resources/add/Add.asm");
+        // Example: "src/main/resources/add/Add.asm"
+        File file = new File(args[0]);
 
         try {
             /*
@@ -118,8 +125,18 @@ public class Assembler {
                 // Write line to hack file string
                 hackFile = hackFile.concat(line + "\n");
             }
+            // Create file name based on Assembly file passed
+            String name = args[0];
+            Pattern pattern = Pattern.compile("(\\w+)\\.asm");
+            Matcher matcher = pattern.matcher(name);
+            if (!matcher.find()) {
+                System.out.println("Hack filename not found with regex!");
+                return;
+            }
+            String hackName = matcher.group(1);
+
             // Write to hack file
-            FileWriter myWriter = new FileWriter("src/main/resources/output/Add.hack");
+            FileWriter myWriter = new FileWriter("src/main/resources/output/" + hackName);
             myWriter.write(hackFile);
             myWriter.close();
 

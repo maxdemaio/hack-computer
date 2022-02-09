@@ -1,2 +1,4 @@
 /assembler/.idea/
 /assembler/target/
+/assembler/src/main/java/*.class
+/assembler/src/main/java/*/*.class
