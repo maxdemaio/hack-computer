@@ -10,7 +10,6 @@ import java.util.Scanner;
 public class Assembler {
     public static void main(String args[]) throws MyAssemblerException {
 
-
         // Option 1) use Scanner and just use parser for each line
         // Option 2) use Parser like a Scanner
         // This implementation uses option 1
@@ -72,6 +71,7 @@ public class Assembler {
             Scanner secondPass = new Scanner(file);
 
             String hackFile = "";
+
             while (secondPass.hasNext()) {
                 String line = secondPass.nextLine();
 
@@ -102,15 +102,11 @@ public class Assembler {
                         line = binaryFinal;
                     }
                     // C-command logic
-                    // **Note: both dest and jump are optional**
+                    // ** Note: both dest and jump are optional **
                 } else if (currCommand == Command.C_COMMAND) {
-                    System.out.println("C command!!, Printing dest,comp,jump");
                     String dest = myParser.dest(line);
                     String comp = myParser.comp(line);
                     String jump = myParser.jump(line);
-                    System.out.println(dest);
-                    System.out.println(comp);
-                    System.out.println(jump);
                     // Take dest,comp,jump and convert them to binary
                     line = "111" + myCodegen.getAll(comp, dest, jump);
                     // L-command logic (LOOP)
@@ -127,6 +123,7 @@ public class Assembler {
             myWriter.write(hackFile);
             myWriter.close();
 
+            System.out.print("Assembly translated to binary!");
             System.out.println(hackFile);
         } catch (FileNotFoundException e) {
             e.printStackTrace();
