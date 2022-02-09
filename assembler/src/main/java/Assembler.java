@@ -26,7 +26,7 @@ public class Assembler {
         SymbolTable mySymbolTable = new SymbolTable();
 
 
-        File file = new File("src/main/resources/rect/Rect.asm");
+        File file = new File("src/main/resources/add/Add.asm");
 
         try {
             /*
@@ -123,7 +123,7 @@ public class Assembler {
                 hackFile = hackFile.concat(line + "\n");
             }
             // Write to hack file
-            FileWriter myWriter = new FileWriter("src/main/resources/output/Rect.hack");
+            FileWriter myWriter = new FileWriter("src/main/resources/output/Add.hack");
             myWriter.write(hackFile);
             myWriter.close();
 
