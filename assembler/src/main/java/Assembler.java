@@ -26,7 +26,7 @@ public class Assembler {
         SymbolTable mySymbolTable = new SymbolTable();
 
 
-        File file = new File("src/main/resources/max/MaxCopy.asm");
+        File file = new File("src/main/resources/rect/Rect.asm");
 
         try {
             /*
@@ -115,14 +115,15 @@ public class Assembler {
                     line = "111" + myCodegen.getAll(comp, dest, jump);
                     // L-command logic (LOOP)
                 } else if (currCommand == Command.L_COMMAND) {
-                    System.out.println("L command!!");
+                    // Skip pseudo instruction
+                    continue;
                 }
 
                 // Write line to hack file string
                 hackFile = hackFile.concat(line + "\n");
             }
             // Write to hack file
-            FileWriter myWriter = new FileWriter("src/main/resources/output/Max.hack");
+            FileWriter myWriter = new FileWriter("src/main/resources/output/Rect.hack");
             myWriter.write(hackFile);
             myWriter.close();
 
