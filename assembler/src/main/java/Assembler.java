@@ -31,7 +31,7 @@ public class Assembler {
             return;
         }
 
-        // Example: "src/main/resources/add/Add.asm"
+        // Example: "C:/Users/maxde/Desktop/MyCodingFiles/nand2tetris/hack-computer/assembler/src/main/resources/add/Add.asm"
         File file = new File(args[0]);
 
         try {
@@ -135,12 +135,12 @@ public class Assembler {
             }
             String hackName = matcher.group(1);
 
-            // Write to hack file
-            FileWriter myWriter = new FileWriter("src/main/resources/output/" + hackName);
+            // Write to hack file change output based on filepath
+            FileWriter myWriter = new FileWriter("C:/Users/maxde/Desktop/MyCodingFiles/nand2tetris/hack-computer/assembler/src/main/resources/output/" + hackName + ".hack");
             myWriter.write(hackFile);
             myWriter.close();
 
-            System.out.print("Assembly translated to binary!");
+            System.out.print("Assembly translated to binary!\n");
             System.out.println(hackFile);
         } catch (FileNotFoundException e) {
             e.printStackTrace();
