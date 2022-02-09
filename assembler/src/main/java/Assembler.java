@@ -95,6 +95,12 @@ public class Assembler {
                         String binaryFinal = myParser.addZeros(binaryPrelim);
                         line = binaryFinal;
                     }
+                    // Else it's a variable, grab value from symbol table
+                    else {
+                        String binaryPrelim = Integer.toBinaryString(Integer.parseInt(mySymbolTable.getValue(symbol)));
+                        String binaryFinal = myParser.addZeros(binaryPrelim);
+                        line = binaryFinal;
+                    }
                     // C-command logic
                     // **Note: both dest and jump are optional**
                 } else if (currCommand == Command.C_COMMAND) {
@@ -116,7 +122,7 @@ public class Assembler {
                 hackFile = hackFile.concat(line + "\n");
             }
             // Write to hack file
-            FileWriter myWriter = new FileWriter("src/main/resources/output/Add.hack");
+            FileWriter myWriter = new FileWriter("src/main/resources/output/Max.hack");
             myWriter.write(hackFile);
             myWriter.close();
 
