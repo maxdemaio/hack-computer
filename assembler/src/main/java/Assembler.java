@@ -26,7 +26,7 @@ public class Assembler {
         Codegen myCodegen = new Codegen();
         SymbolTable mySymbolTable = new SymbolTable();
 
-        if (args[0] == null || args[0].trim().isEmpty()) {
+        if (args[0] == null) {
             System.out.println("You need to specify a path to an Assembly file!");
             return;
         }
@@ -139,9 +139,6 @@ public class Assembler {
             FileWriter myWriter = new FileWriter("C:/Users/maxde/Desktop/MyCodingFiles/nand2tetris/hack-computer/assembler/src/main/resources/output/" + hackName + ".hack");
             myWriter.write(hackFile);
             myWriter.close();
-
-            System.out.print("Assembly translated to binary!\n");
-            System.out.println(hackFile);
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (IOException e) {
