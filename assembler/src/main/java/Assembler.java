@@ -31,7 +31,7 @@ public class Assembler {
             return;
         }
 
-        // Example: "C:/Users/maxde/Desktop/MyCodingFiles/nand2tetris/hack-computer/assembler/src/main/resources/add/Add.asm"
+        // Example: "C:/Users/maxde/Desktop/MyCodingFiles/nand2tetris/hack-computer/assembler/src/main/resources/max/Max.asm"
         File file = new File(args[0]);
 
         try {
@@ -57,8 +57,14 @@ public class Assembler {
 
                 // Label symbols
                 if (currCommand == Command.L_COMMAND) {
+                    // Since we'll be ignoring the pseudo-commands (labels)
+                    // The "next" instruction will be shifted up right where the label is
                     // Store the location of the next instruction in the program
-                    mySymbolTable.addLabel(symbol, Integer.toString(++lineCount));
+                    if (lineCount == 0) {
+                        mySymbolTable.addLabel(symbol, Integer.toString(++lineCount));
+                    } else {
+                        mySymbolTable.addLabel(symbol, Integer.toString(++lineCount - 1));
+                    }
                 }
                 // Variable symbols (pre-defined already in symbol table)
                 else if (currCommand == Command.A_COMMAND) {
@@ -136,7 +142,7 @@ public class Assembler {
             String hackName = matcher.group(1);
 
             // Write to hack file change output based on filepath
-            FileWriter myWriter = new FileWriter("C:/Users/maxde/Desktop/MyCodingFiles/nand2tetris/hack-computer/assembler/src/main/resources/output/" + hackName + ".hack");
+            FileWriter myWriter = new FileWriter("C:/Users/maxde/Desktop/MyCodingFiles/nand2tetris/hack-computer/assembler/src/main/resources/output/Max.hack");
             myWriter.write(hackFile);
             myWriter.close();
         } catch (FileNotFoundException e) {
