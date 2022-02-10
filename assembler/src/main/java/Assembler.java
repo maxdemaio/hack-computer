@@ -2,7 +2,6 @@ import enums.Command;
 import exceptions.MyAssemblerException;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -44,7 +43,7 @@ public class Assembler {
 
             // Amount of variables in a hack assembly program
             // Note: we could limit this amount to amount of RAM available for variables
-            ArrayList<String> variables = new ArrayList();
+            ArrayList<String> variables = new ArrayList<>();
 
             while (firstPass.hasNext()) {
                 String line = firstPass.nextLine();
@@ -116,14 +115,12 @@ public class Assembler {
                     // If it's a number, convert to binary and write to ouput
                     if (myParser.stringIsNum(symbol)) {
                         String binaryPrelim = Integer.toBinaryString(Integer.parseInt(symbol));
-                        String binaryFinal = myParser.addZeros(binaryPrelim);
-                        line = binaryFinal;
+                        line = myParser.addZeros(binaryPrelim);
                     }
                     // Else it's a variable, grab value from symbol table
                     else {
                         String binaryPrelim = Integer.toBinaryString(Integer.parseInt(mySymbolTable.getValue(symbol)));
-                        String binaryFinal = myParser.addZeros(binaryPrelim);
-                        line = binaryFinal;
+                        line = myParser.addZeros(binaryPrelim);
                     }
                     // C-command logic
                     // ** Note: both dest and jump are optional **
@@ -157,8 +154,6 @@ public class Assembler {
             myWriter.write(hackFile);
             myWriter.close();
 
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         }
