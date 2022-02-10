@@ -7,7 +7,7 @@ public class SymbolTable {
     // For each storage of a new variable, we'd increment this value
     // This way we can store it in the next adjacent memory address
     // Set memory address of variable, memIndex++;
-    public static int memIndex = 16;
+    public int memIndex = 16;
 
     public Map<String, String> symbols;
 
@@ -41,7 +41,8 @@ public class SymbolTable {
     }
 
     public void addVariable(String key) {
-        symbols.put(key, Integer.toString(memIndex++));
+        symbols.put(key, Integer.toString(memIndex));
+        memIndex++;
     }
 
     public void addLabel(String key, String value) {

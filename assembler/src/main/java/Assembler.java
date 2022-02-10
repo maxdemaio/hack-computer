@@ -5,6 +5,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -31,7 +32,7 @@ public class Assembler {
             return;
         }
 
-        // Example: "C:/Users/maxde/Desktop/MyCodingFiles/nand2tetris/hack-computer/assembler/src/main/resources/max/Max.asm"
+        // Example: "C:/Users/maxde/Desktop/MyCodingFiles/nand2tetris/hack-computer/assembler/src/main/resources/add/Add.asm"
         File file = new File(args[0]);
 
         try {
@@ -40,6 +41,10 @@ public class Assembler {
                 Add symbols to symbol table
             */
             Scanner firstPass = new Scanner(file);
+
+            // Amount of variables in a hack assembly program
+            // Note: we could limit this amount to amount of RAM available for variables
+            ArrayList<String> variables = new ArrayList();
 
             while (firstPass.hasNext()) {
                 String line = firstPass.nextLine();
@@ -60,21 +65,27 @@ public class Assembler {
                     // Since we'll be ignoring the pseudo-commands (labels)
                     // The "next" instruction will be shifted up right where the label is
                     // Store the location of the next instruction in the program
-                    if (lineCount == 0) {
-                        mySymbolTable.addLabel(symbol, Integer.toString(++lineCount));
-                    } else {
-                        mySymbolTable.addLabel(symbol, Integer.toString(++lineCount - 1));
-                    }
+                    mySymbolTable.addLabel(symbol, Integer.toString(lineCount));
+                    // Don't increment lineCount due to shift
+                    continue;
                 }
-                // Variable symbols (pre-defined already in symbol table)
+                // Variable symbols (will include @labels)
                 else if (currCommand == Command.A_COMMAND) {
-                    // If it's not a number, put its value into our symbol table
-                    if (!myParser.stringIsNum(symbol) && !mySymbolTable.containKey(symbol)) {
-                        mySymbolTable.addVariable(symbol);
+                    if (!myParser.stringIsNum(symbol)) {
+                        variables.add(symbol);
                     }
+
                 }
 
                 lineCount++;
+            }
+
+            // Add variables to memory
+            // This will make sure we don't double count @label commands
+            for(String variable: variables) {
+                if (!myParser.stringIsNum(variable) && !mySymbolTable.containKey(variable)) {
+                    mySymbolTable.addVariable(variable);
+                }
             }
 
             /*
@@ -142,9 +153,10 @@ public class Assembler {
             String hackName = matcher.group(1);
 
             // Write to hack file change output based on filepath
-            FileWriter myWriter = new FileWriter("C:/Users/maxde/Desktop/MyCodingFiles/nand2tetris/hack-computer/assembler/src/main/resources/output/Max.hack");
+            FileWriter myWriter = new FileWriter("C:/Users/maxde/Desktop/MyCodingFiles/nand2tetris/hack-computer/assembler/src/main/resources/output/" + hackName + ".hack");
             myWriter.write(hackFile);
             myWriter.close();
+
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (IOException e) {
