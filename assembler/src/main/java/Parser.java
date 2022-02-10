@@ -107,12 +107,12 @@ public class Parser {
     }
 
     String addZeros(String binary) throws MyAssemblerException {
-        // Makes sure binary value is 16-bits
-        if (binary.length() <= 16) {
+        // Makes sure binary value is 15-bits
+        if (binary.length() <= 15) {
             return ("0".repeat(16 - binary.length()) + binary);
         }
 
-        throw new MyAssemblerException("binary string must be <= 16-bits");
+        throw new MyAssemblerException("binary string must be <= 15-bits");
 
     }
 }
