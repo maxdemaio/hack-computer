@@ -10,6 +10,7 @@ Throughout this project I published a series of blog posts:
 - [Nand to Tetris - Boolean Arithmetic & the ALU](https://www.maxdemaio.com/posts/boolean-arithmetic-alu)
 - [Nand to Tetris - Memory](https://www.maxdemaio.com/posts/memory)
 - [Nand to Tetris - Machine Language](https://www.maxdemaio.com/posts/machine-language)
+- [Nand to Tetris - Building an Assembler](https://www.maxdemaio.com/posts/assemblers)
 
 ## Hardware platform
 
