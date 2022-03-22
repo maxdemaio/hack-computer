@@ -1,4 +1,4 @@
-/assembler/.idea/
-/assembler/target/
-/assembler/src/main/java/*.class
-/assembler/src/main/java/*/*.class
+/*/.idea/
+/*/target/
+/*/src/main/java/*.class
+/*/src/main/java/*/*.class
