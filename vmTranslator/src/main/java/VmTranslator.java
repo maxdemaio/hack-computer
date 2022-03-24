@@ -7,11 +7,13 @@ public class VmTranslator {
         // We should use the cmd line arg
         // if input is dir, we process all .vm files in dir
         // if input is *.vm we just translate that one file
+        Parser myParser = new Parser("src/main/resources/BasicTest.vm");
+        while (myParser.hasMoreCommands()) {
+            System.out.println(myParser.printCurrentCommand());
+            myParser.advance();
+        }
 
-        FileInputStream vmLangInput = new FileInputStream("");
-        FileOutputStream assemblyOutput = new FileOutputStream("");
-        Parser myParser = new Parser(vmLangInput);
-        CodeWriter myCodeWriter = new CodeWriter(assemblyOutput);
+        myParser.close();
 
         // while parser hasNext, we march through VM commands
         // generate assembly code for each VM command (several assembly commands)

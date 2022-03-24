@@ -1,20 +1,44 @@
-import java.io.FileInputStream;
+import java.io.*;
 
 public class Parser {
-    FileInputStream input;
+    int lineCount;
+    FileInputStream fis;
+    BufferedReader reader;
+    String currentCommand;
 
-    Parser(FileInputStream input) {
-        this.input = input;
+    Parser(String fileName) {
+        try {
+            fis = new FileInputStream(fileName);
+            reader = new BufferedReader(new InputStreamReader(fis));
+            // init first line
+            currentCommand = reader.readLine();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     boolean hasMoreCommands() {
+        if(currentCommand != null) {
+            return true;
+        }
         return false;
+    }
+
+    String printCurrentCommand() {
+        return currentCommand;
     }
 
     void advance() {
         // read next command and make it the curr command
         // only called if hasMoreCommands is true
         // initially there is no current command
+        try {
+            currentCommand = reader.readLine();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     CommandType commandType() {
@@ -32,5 +56,13 @@ public class Parser {
         // returns the second arg of the curr command
         // Only called if current command is c_push/pop/func/call
         return 2;
+    }
+
+    void close() {
+        try {
+            reader.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }
