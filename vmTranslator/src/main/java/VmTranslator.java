@@ -9,7 +9,18 @@ public class VmTranslator {
         // if input is *.vm we just translate that one file
         Parser myParser = new Parser("src/main/resources/BasicTest.vm");
         while (myParser.hasMoreCommands()) {
-            System.out.println(myParser.printCurrentCommand());
+            String currentCommand = myParser.getCurrentCommand();
+
+            // remove comments
+            currentCommand = myParser.removeComments(currentCommand);
+
+            // If it was an comment/empty line, continue to next line without writing
+            if (currentCommand.length() == 0 || myParser.isWhiteSpace(currentCommand)) {
+                myParser.advance();
+                continue;
+            }
+
+            System.out.println(currentCommand);
             myParser.advance();
         }
 

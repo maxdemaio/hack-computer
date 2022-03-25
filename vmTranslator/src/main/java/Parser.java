@@ -20,13 +20,24 @@ public class Parser {
     }
 
     boolean hasMoreCommands() {
-        if(currentCommand != null) {
+        if (currentCommand != null) {
             return true;
         }
         return false;
     }
 
-    String printCurrentCommand() {
+    Boolean isWhiteSpace(String line) {
+        if (line.isBlank()) {
+            return true;
+        }
+        return false;
+    }
+
+    String removeComments(String line) {
+        return line.replaceAll("//.+", "");
+    }
+
+    String getCurrentCommand() {
         return currentCommand;
     }
 
