@@ -11,13 +11,29 @@ public class VmTranslator {
         while (myParser.hasMoreCommands()) {
             String currentCommand = myParser.getCurrentCommand();
 
-            // remove comments
-            currentCommand = myParser.removeComments(currentCommand);
-
-            // If it was an comment/empty line, continue to next line without writing
+            // If it was a comment/empty line, continue to next line without writing
             if (currentCommand.length() == 0 || myParser.isWhiteSpace(currentCommand)) {
                 myParser.advance();
                 continue;
+            }
+
+            // commandType
+            CommandType cType = myParser.commandType();
+
+            // init args (null and -1)
+            // This is so we can check if changed later
+            String arg1;
+            int arg2 = -1;
+
+            // arg1
+            if (cType != CommandType.C_RETURN) {
+                arg1 = myParser.arg1();
+            }
+            // arg2
+            if (cType == CommandType.C_POP ||
+                    cType == CommandType.C_PUSH ||
+                    cType == CommandType.C_FUNCTION || cType == CommandType.C_CALL) {
+                arg2 = myParser.arg2();
             }
 
             System.out.println(currentCommand);
