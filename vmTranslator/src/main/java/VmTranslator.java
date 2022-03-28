@@ -8,6 +8,8 @@ public class VmTranslator {
         // if input is dir, we process all .vm files in dir
         // if input is *.vm we just translate that one file
         Parser myParser = new Parser("src/main/resources/BasicTest.vm");
+        CodeWriter myCodeWriter = new CodeWriter("");
+
         while (myParser.hasMoreCommands()) {
             String currentCommand = myParser.getCurrentCommand();
 
@@ -20,15 +22,24 @@ public class VmTranslator {
             // commandType
             CommandType cType = myParser.commandType();
 
-            // init args (null and -1)
+            // init loc/args (null and -1)
             // This is so we can check if changed later
             String arg1;
             int arg2 = -1;
+            String location;
 
             // arg1
             if (cType != CommandType.C_RETURN) {
                 arg1 = myParser.arg1();
             }
+
+            // location
+            if (cType != CommandType.C_ARITHMETIC ||
+                    cType == CommandType.C_FUNCTION
+                    || cType == CommandType.C_CALL) {
+                location = myParser.location();
+            }
+
             // arg2
             if (cType == CommandType.C_POP ||
                     cType == CommandType.C_PUSH ||
@@ -37,6 +48,8 @@ public class VmTranslator {
             }
 
             System.out.println(currentCommand);
+
+            // codewriter
             myParser.advance();
         }
 

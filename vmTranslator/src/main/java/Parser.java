@@ -85,6 +85,13 @@ public class Parser {
         return firstStr;
     }
 
+    String location() {
+        // returns second arg of the current command
+        String[] commandList = currentCommand.split(" ");
+        String secondStr = commandList[1];
+        return secondStr;
+    }
+
     int arg2() {
         // returns the second arg of the curr command
         // Only called if current command is c_push/pop/func/call
