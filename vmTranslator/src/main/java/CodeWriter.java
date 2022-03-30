@@ -98,9 +98,21 @@ public class CodeWriter {
         // ~~~
     }
 
-    void writePushPop(String command, int index) {
+    void writePushPop(CommandType command, int index) {
         // write assembly code that is the translation of given command
         // where command is either c_push/pop
+        if (command == CommandType.C_PUSH) {
+            // TODO: write comment to file
+
+            // TODO: write assembly to file (see example 2)
+
+        } else if (command == CommandType.C_POP) {
+            // TODO: write comment to file
+
+            // TODO: write assembly to file (see example 3)
+        }
+
+        return;
     }
 
     void close() throws IOException {
