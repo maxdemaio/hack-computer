@@ -49,7 +49,9 @@ public class VmTranslator {
 
             System.out.println(currentCommand);
 
+            // TODO:
             // codewriter
+            // always write comment with current command first
             myParser.advance();
         }
 
