@@ -1,14 +1,13 @@
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
+import java.io.IOException;
 
 public class VmTranslator {
-    public static void main(String[] args) throws FileNotFoundException {
+    public static void main(String[] args) throws IOException {
         // We should use the cmd line arg
         // if input is dir, we process all .vm files in dir
         // if input is *.vm we just translate that one file
         Parser myParser = new Parser("src/main/resources/BasicTest.vm");
-        CodeWriter myCodeWriter = new CodeWriter("");
+        CodeWriter myCodeWriter = new CodeWriter("src/main/resources/BasicTest.asm");
 
         while (myParser.hasMoreCommands()) {
             String currentCommand = myParser.getCurrentCommand();
@@ -51,11 +50,14 @@ public class VmTranslator {
 
             // TODO:
             // codewriter
+            myCodeWriter.writeVmCommand(myParser.getCurrentCommand());
+
             // always write comment with current command first
             myParser.advance();
         }
 
         myParser.close();
+        myCodeWriter.close();
 
         // while parser hasNext, we march through VM commands
         // generate assembly code for each VM command (several assembly commands)

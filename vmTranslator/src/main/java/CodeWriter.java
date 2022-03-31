@@ -1,9 +1,6 @@
-import java.io.FileOutputStream;
-import java.io.IOException;
+import java.io.*;
 
 public class CodeWriter {
-    String output;
-
     // heap ~ memory that isn't the stack
     // stack ~ all info stored in the stack
 
@@ -77,10 +74,16 @@ public class CodeWriter {
        M=D // arg[i] is equal to value of top of stack
      */
 
+    String outputFileName;
+    File fout;
+    FileOutputStream fos;
+    BufferedWriter bw;
 
-
-    CodeWriter(String output) {
-        this.output = output;
+    CodeWriter(String outputFileName) throws FileNotFoundException {
+        this.outputFileName = outputFileName;
+        fout = new File(outputFileName);
+        fos = new FileOutputStream(fout);
+        bw = new BufferedWriter(new OutputStreamWriter(fos));
     }
 
     void setFileName(String fileName) {
@@ -98,12 +101,10 @@ public class CodeWriter {
         // ~~~
     }
 
-    void writePushPop(CommandType command, int index) {
+    void writePushPop(CommandType command, int index) throws IOException {
         // write assembly code that is the translation of given command
         // where command is either c_push/pop
         if (command == CommandType.C_PUSH) {
-            // TODO: write comment to file
-
             // TODO: write assembly to file (see example 2)
 
         } else if (command == CommandType.C_POP) {
@@ -115,7 +116,14 @@ public class CodeWriter {
         return;
     }
 
+    void writeVmCommand(String command) throws IOException {
+        bw.write("// " + command);
+        bw.newLine();
+        return;
+    }
+
     void close() throws IOException {
+        bw.close();
         return;
     }
 }

@@ -1,9 +1,7 @@
 import java.io.*;
 import java.util.HashMap;
-import java.util.List;
 
 public class Parser {
-    int lineCount;
     FileInputStream fis;
     BufferedReader reader;
     String currentCommand;
