@@ -11,6 +11,10 @@ public class VmTranslator {
 
         while (myParser.hasMoreCommands()) {
             String currentCommand = myParser.getCurrentCommand();
+            System.out.println(currentCommand);
+
+            // Write comment of VM lang to ASM file
+            myCodeWriter.writeVmCommand(myParser.getCurrentCommand());
 
             // If it was a comment/empty line, continue to next line without writing
             if (currentCommand.length() == 0 || myParser.isWhiteSpace(currentCommand)) {
@@ -46,13 +50,10 @@ public class VmTranslator {
                 arg2 = myParser.arg2();
             }
 
-            System.out.println(currentCommand);
-
-            // TODO:
-            // codewriter
-            myCodeWriter.writeVmCommand(myParser.getCurrentCommand());
-
-            // always write comment with current command first
+            if (cType == CommandType.C_POP ||
+                    cType == CommandType.C_PUSH) {
+                myCodeWriter.writePushPop(cType, arg2);
+            }
             myParser.advance();
         }
 

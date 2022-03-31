@@ -105,11 +105,31 @@ public class CodeWriter {
         // write assembly code that is the translation of given command
         // where command is either c_push/pop
         if (command == CommandType.C_PUSH) {
-            // TODO: write assembly to file (see example 2)
+            // write assembly to file (see example 2)
+            bw.write("@" + "LCL");
+            bw.newLine();
+            bw.write("D=M");
+            bw.newLine();
+
+            bw.write("@" + Integer.toString(index));
+            bw.newLine();
+            bw.write("A=D+A");
+            bw.newLine();
+            bw.write("D=M");
+
+            bw.write("@SP");
+            bw.newLine();
+            bw.write("A=M");
+            bw.newLine();
+            bw.write("M=D");
+            bw.newLine();
+            bw.write("@SP");
+            bw.newLine();
+            bw.write("M=M+1");
+            bw.newLine();
 
         } else if (command == CommandType.C_POP) {
             // TODO: write comment to file
-
             // TODO: write assembly to file (see example 3)
         }
 
