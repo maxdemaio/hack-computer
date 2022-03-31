@@ -13,14 +13,14 @@ public class VmTranslator {
             String currentCommand = myParser.getCurrentCommand();
             System.out.println(currentCommand);
 
-            // Write comment of VM lang to ASM file
-            myCodeWriter.writeVmCommand(myParser.getCurrentCommand());
-
             // If it was a comment/empty line, continue to next line without writing
             if (currentCommand.length() == 0 || myParser.isWhiteSpace(currentCommand)) {
                 myParser.advance();
                 continue;
             }
+
+            // Write comment of VM lang to ASM file
+            myCodeWriter.writeVmCommand(myParser.getCurrentCommand());
 
             // commandType
             CommandType cType = myParser.commandType();

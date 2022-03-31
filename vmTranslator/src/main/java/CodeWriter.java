@@ -86,12 +86,6 @@ public class CodeWriter {
         bw = new BufferedWriter(new OutputStreamWriter(fos));
     }
 
-    void setFileName(String fileName) {
-        // inform that the translation of new vm file has started
-        System.out.println("Starting translation of VM program " + fileName + "!");
-        System.out.println();
-    }
-
     void writeArithmetic(String command) {
         // Write the assembly code that is the translation of arith cmd
         // example:
@@ -102,8 +96,13 @@ public class CodeWriter {
     }
 
     void writePushPop(CommandType command, int index) throws IOException {
+        // TODO: take command[1]
+
         // write assembly code that is the translation of given command
         // where command is either c_push/pop
+
+        // TODO: exception check to make sure commandtype, segment index are set
+
         if (command == CommandType.C_PUSH) {
             // write assembly to file (see example 2)
             bw.write("@" + "LCL");
@@ -111,11 +110,12 @@ public class CodeWriter {
             bw.write("D=M");
             bw.newLine();
 
-            bw.write("@" + Integer.toString(index));
+            bw.write("@" + index);
             bw.newLine();
             bw.write("A=D+A");
             bw.newLine();
             bw.write("D=M");
+            bw.newLine();
 
             bw.write("@SP");
             bw.newLine();
@@ -127,10 +127,46 @@ public class CodeWriter {
             bw.newLine();
             bw.write("M=M+1");
             bw.newLine();
+            bw.newLine();
 
         } else if (command == CommandType.C_POP) {
-            // TODO: write comment to file
-            // TODO: write assembly to file (see example 3)
+            // write assembly to file (see example 3)
+            // R13 = @segment + i
+            bw.write("@" + "ARG");
+            bw.newLine();
+            bw.write("D=M");
+            bw.newLine();
+
+            bw.write("@" + index);
+            bw.newLine();
+            bw.write("D=D+A");
+            bw.newLine();
+
+            bw.write("@R13");
+            bw.newLine();
+            bw.write("M=D");
+            bw.newLine();
+
+
+            // &R13 = D
+            bw.write("@SP");
+            bw.newLine();
+            bw.write("M=M-1");
+            bw.newLine();
+
+            bw.write("@SP");
+            bw.newLine();
+            bw.write("A=M");
+            bw.newLine();
+            bw.write("D=M");
+
+            bw.write("@R13");
+            bw.newLine();
+            bw.write("A=M");
+            bw.newLine();
+            bw.write("M=D");
+            bw.newLine();
+            bw.newLine();
         }
 
         return;
