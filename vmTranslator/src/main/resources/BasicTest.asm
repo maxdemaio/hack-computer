@@ -1,17 +1,13 @@
 // push constant 10
-@LCL
-D=M
 @10
-A=D+A
-D=M
+D=A
 @SP
 A=M
 M=D
 @SP
 M=M+1
-
 // pop local 0
-@ARG
+@LCL
 D=M
 @0
 D=D+A
@@ -21,34 +17,26 @@ M=D
 M=M-1
 @SP
 A=M
-D=M@R13
+D=M
+@R13
 A=M
 M=D
-
 // push constant 21
-@LCL
-D=M
 @21
-A=D+A
-D=M
+D=A
 @SP
 A=M
 M=D
 @SP
 M=M+1
-
 // push constant 22
-@LCL
-D=M
 @22
-A=D+A
-D=M
+D=A
 @SP
 A=M
 M=D
 @SP
 M=M+1
-
 // pop argument 2
 @ARG
 D=M
@@ -60,10 +48,10 @@ M=D
 M=M-1
 @SP
 A=M
-D=M@R13
+D=M
+@R13
 A=M
 M=D
-
 // pop argument 1
 @ARG
 D=M
@@ -75,24 +63,20 @@ M=D
 M=M-1
 @SP
 A=M
-D=M@R13
+D=M
+@R13
 A=M
 M=D
-
 // push constant 36
-@LCL
-D=M
 @36
-A=D+A
-D=M
+D=A
 @SP
 A=M
 M=D
 @SP
 M=M+1
-
 // pop this 6
-@ARG
+@THIS
 D=M
 @6
 D=D+A
@@ -102,36 +86,28 @@ M=D
 M=M-1
 @SP
 A=M
-D=M@R13
+D=M
+@R13
 A=M
 M=D
-
 // push constant 42
-@LCL
-D=M
 @42
-A=D+A
-D=M
+D=A
 @SP
 A=M
 M=D
 @SP
 M=M+1
-
 // push constant 45
-@LCL
-D=M
 @45
-A=D+A
-D=M
+D=A
 @SP
 A=M
 M=D
 @SP
 M=M+1
-
 // pop that 5
-@ARG
+@THAT
 D=M
 @5
 D=D+A
@@ -141,12 +117,12 @@ M=D
 M=M-1
 @SP
 A=M
-D=M@R13
+D=M
+@R13
 A=M
 M=D
-
 // pop that 2
-@ARG
+@THAT
 D=M
 @2
 D=D+A
@@ -156,24 +132,20 @@ M=D
 M=M-1
 @SP
 A=M
-D=M@R13
+D=M
+@R13
 A=M
 M=D
-
 // push constant 510
-@LCL
-D=M
 @510
-A=D+A
-D=M
+D=A
 @SP
 A=M
 M=D
 @SP
 M=M+1
-
 // pop temp 6
-@ARG
+@TEMP
 D=M
 @6
 D=D+A
@@ -183,10 +155,10 @@ M=D
 M=M-1
 @SP
 A=M
-D=M@R13
+D=M
+@R13
 A=M
 M=D
-
 // push local 0
 @LCL
 D=M
@@ -198,9 +170,8 @@ A=M
 M=D
 @SP
 M=M+1
-
 // push that 5
-@LCL
+@THAT
 D=M
 @5
 A=D+A
@@ -210,10 +181,14 @@ A=M
 M=D
 @SP
 M=M+1
-
 // add
+@SP
+AM=A-1
+D=M
+A=A-1
+M=D+M
 // push argument 1
-@LCL
+@ARG
 D=M
 @1
 A=D+A
@@ -223,10 +198,14 @@ A=M
 M=D
 @SP
 M=M+1
-
 // sub
+@SP
+AM=A-1
+D=M
+A=A-1
+M=D-M
 // push this 6
-@LCL
+@THIS
 D=M
 @6
 A=D+A
@@ -236,9 +215,8 @@ A=M
 M=D
 @SP
 M=M+1
-
 // push this 6
-@LCL
+@THIS
 D=M
 @6
 A=D+A
@@ -248,11 +226,20 @@ A=M
 M=D
 @SP
 M=M+1
-
 // add
+@SP
+AM=A-1
+D=M
+A=A-1
+M=D+M
 // sub
+@SP
+AM=A-1
+D=M
+A=A-1
+M=D-M
 // push temp 6
-@LCL
+@TEMP
 D=M
 @6
 A=D+A
@@ -262,5 +249,9 @@ A=M
 M=D
 @SP
 M=M+1
-
 // add
+@SP
+AM=A-1
+D=M
+A=A-1
+M=D+M
