@@ -14,9 +14,7 @@ D=D+A
 @R13
 M=D
 @SP
-M=M-1
-@SP
-A=M
+AM=M-1
 D=M
 @R13
 A=M
@@ -45,9 +43,7 @@ D=D+A
 @R13
 M=D
 @SP
-M=M-1
-@SP
-A=M
+AM=M-1
 D=M
 @R13
 A=M
@@ -60,9 +56,7 @@ D=D+A
 @R13
 M=D
 @SP
-M=M-1
-@SP
-A=M
+AM=M-1
 D=M
 @R13
 A=M
@@ -83,9 +77,7 @@ D=D+A
 @R13
 M=D
 @SP
-M=M-1
-@SP
-A=M
+AM=M-1
 D=M
 @R13
 A=M
@@ -114,9 +106,7 @@ D=D+A
 @R13
 M=D
 @SP
-M=M-1
-@SP
-A=M
+AM=M-1
 D=M
 @R13
 A=M
@@ -129,9 +119,7 @@ D=D+A
 @R13
 M=D
 @SP
-M=M-1
-@SP
-A=M
+AM=M-1
 D=M
 @R13
 A=M
@@ -145,16 +133,14 @@ M=D
 @SP
 M=M+1
 // pop temp 6
-@TEMP
+@R5
 D=M
-@6
+@11
 D=D+A
 @R13
 M=D
 @SP
-M=M-1
-@SP
-A=M
+AM=M-1
 D=M
 @R13
 A=M
@@ -183,10 +169,10 @@ M=D
 M=M+1
 // add
 @SP
-AM=A-1
+AM=M-1
 D=M
 A=A-1
-M=D+M
+M=M+D
 // push argument 1
 @ARG
 D=M
@@ -200,10 +186,10 @@ M=D
 M=M+1
 // sub
 @SP
-AM=A-1
+AM=M-1
 D=M
 A=A-1
-M=D-M
+M=M-D
 // push this 6
 @THIS
 D=M
@@ -228,20 +214,20 @@ M=D
 M=M+1
 // add
 @SP
-AM=A-1
+AM=M-1
 D=M
 A=A-1
-M=D+M
+M=M+D
 // sub
 @SP
-AM=A-1
+AM=M-1
 D=M
 A=A-1
-M=D-M
+M=M-D
 // push temp 6
-@TEMP
+@R5
 D=M
-@6
+@11
 A=D+A
 D=M
 @SP
@@ -251,7 +237,7 @@ M=D
 M=M+1
 // add
 @SP
-AM=A-1
+AM=M-1
 D=M
 A=A-1
-M=D+M
+M=M+D

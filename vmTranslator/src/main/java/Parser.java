@@ -18,11 +18,18 @@ public class Parser {
             commandMap.put("pop", CommandType.C_POP);
             commandMap.put("push", CommandType.C_PUSH);
             commandMap.put("sub", CommandType.C_ARITHMETIC);
+            commandMap.put("add", CommandType.C_ARITHMETIC);
+            commandMap.put("neg", CommandType.C_ARITHMETIC);
+            commandMap.put("eq", CommandType.C_COMPARE);
+            commandMap.put("gt", CommandType.C_COMPARE);
+            commandMap.put("lt", CommandType.C_COMPARE);
+            commandMap.put("and", CommandType.C_LOGICAL);
+            commandMap.put("or", CommandType.C_LOGICAL);
+            commandMap.put("not", CommandType.C_LOGICAL);
             commandMap.put("if", CommandType.C_IF);
             commandMap.put("func", CommandType.C_FUNCTION);
             commandMap.put("return", CommandType.C_RETURN);
             commandMap.put("call", CommandType.C_CALL);
-            commandMap.put("add", CommandType.C_ARITHMETIC);
             commandMap.put("goto", CommandType.C_GOTO);
             commandMap.put("label", CommandType.C_LABEL);
 
@@ -83,7 +90,7 @@ public class Parser {
         return firstStr;
     }
 
-    String location() {
+    String segement() {
         // returns second arg of the current command
         String[] commandList = currentCommand.split(" ");
         String secondStr = commandList[1];

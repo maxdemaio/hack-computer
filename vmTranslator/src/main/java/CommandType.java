@@ -1,5 +1,7 @@
 public enum CommandType {
     C_ARITHMETIC,
+    C_LOGICAL,
+    C_COMPARE,
     C_PUSH,
     C_POP,
     C_LABEL,

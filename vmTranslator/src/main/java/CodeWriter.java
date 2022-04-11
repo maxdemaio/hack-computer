@@ -1,5 +1,4 @@
 import java.io.*;
-import java.util.HashMap;
 
 public class CodeWriter {
     // heap ~ memory that isn't the stack
@@ -77,134 +76,275 @@ public class CodeWriter {
 
     /*
     example 4: add/sub
-    @SP
-    AM=A-1 // make stack pointer now look at last element so it'll get overwritten in future
-    D=M // set D-register to 1/2 of the operands
+        @SP
+        AM=M-1 // make stack pointer now look at last element so it'll get overwritten in future
+        D=M // set D-register to 1/2 of the operands
 
-    // Set
-    A=A-1 // get the other operand 2/2
-    M=D+M // set 2/2 to the result OR if sub (M=D-M)
+        A=A-1 // get the other operand 2/2
+        M=D+M // set 2/2 to the result OR if sub (M=D-M)
      */
 
-    String outputFileName;
-    File fout;
-    FileOutputStream fos;
-    BufferedWriter bw;
-    HashMap<String, String> locationMap;
+    private int arthJumpFlag;
+    private String outputFileName;
+    private File fout;
+    private FileOutputStream fos;
+    private BufferedWriter bw;
 
     CodeWriter(String outputFileName) throws FileNotFoundException {
         this.outputFileName = outputFileName;
         fout = new File(outputFileName);
         fos = new FileOutputStream(fout);
         bw = new BufferedWriter(new OutputStreamWriter(fos));
-
-        locationMap = new HashMap<>();
-        locationMap.put("local", "LCL");
-        locationMap.put("argument", "ARG");
-        locationMap.put("this", "THIS");
-        locationMap.put("that", "THAT");
-        locationMap.put("temp", "TEMP");
-        locationMap.put("static", "STATIC");
     }
 
-    void write(String command) throws IOException {
-        bw.write(command);
-        bw.newLine();
-    }
+    /**
+     * write asm for the given vm arithmetic command
+     *
+     * @param command
+     */
+    public void writeArithmetic(String command) throws IOException {
 
-    void writeArithmetic(String command) throws IOException {
-        // write the assembly code that is the translation of arith cmd
-
-        // write assembly to file (see example 4)
         if (command.equals("add")) {
-            write("@SP");
-            write("AM=A-1");
-            write("D=M");
 
-            write("A=A-1");
-            write("M=D+M");
-            return;
+            write(arithTemplate1() + "M=M+D\n");
+
         } else if (command.equals("sub")) {
-            write("@SP");
-            write("AM=A-1");
-            write("D=M");
 
-            write("A=A-1");
-            write("M=D-M");
-            return;
+            write(arithTemplate1() + "M=M-D\n");
+
+        } else if (command.equals("and")) {
+
+            write(arithTemplate1() + "M=M&D\n");
+
+        } else if (command.equals("or")) {
+
+            write(arithTemplate1() + "M=M|D\n");
+
+        } else if (command.equals("gt")) {
+
+            write(arithTemplate2("JLE"));//not <=
+            arthJumpFlag++;
+
+        } else if (command.equals("lt")) {
+
+            write(arithTemplate2("JGE"));//not >=
+            arthJumpFlag++;
+
+        } else if (command.equals("eq")) {
+
+            write(arithTemplate2("JNE"));//not <>
+            arthJumpFlag++;
+
+        } else if (command.equals("not")) {
+
+            write("@SP\nA=M-1\nM=!M\n");
+
+        } else if (command.equals("neg")) {
+
+            write("D=0\n@SP\nA=M-1\nM=D-M\n");
+
+        } else {
+
+            throw new IllegalArgumentException("Call writeArithmetic() for a non-arithmetic command");
+
         }
-        return;
     }
 
-    void writePushPop(CommandType command, int index, String location) throws IOException {
-        // write assembly code that is the translation of given command
-        // where command is either c_push/pop
+    /**
+     * write asm for the given vm command
+     * where the command is PUSH or POP
+     *
+     * @param command PUSH or POP
+     * @param segment
+     * @param index
+     */
+    public void writePushPop(CommandType command, String segment, int index) throws IOException {
 
-        String memLocation = locationMap.get(location);
+        if (command == CommandType.C_PUSH) {
 
-        // TODO: exception check to make sure commandtype, segment index are set
-        // if memLocation null, unsupported location
-        // index = -1 invalid index
-        // command type null invalid command type
+            if (segment.equals("constant")) {
 
-        if (location.equals("constant")) {
-            write("@" + index);
-            write("D=A");
+                write("@" + index + "\n" +
+                        "D=A\n" +
+                        "@SP\n" +
+                        "A=M\n" +
+                        "M=D\n" +
+                        "@SP\n" +
+                        "M=M+1\n");
 
-            write("@SP");
-            write("A=M");
-            write("M=D");
+            } else if (segment.equals("local")) {
 
-            write("@SP");
-            write("M=M+1");
-            return;
-        } else if (command == CommandType.C_PUSH) {
-            // write assembly to file (see example 2)
-            write("@" + memLocation);
-            write("D=M");
+                write(pushTemplate1("LCL", index, false));
 
-            write("@" + index);
-            write("A=D+A");
-            write("D=M");
+            } else if (segment.equals("argument")) {
 
-            write("@SP");
-            write("A=M");
-            write("M=D");
-            write("@SP");
-            write("M=M+1");
+                write(pushTemplate1("ARG", index, false));
+
+            } else if (segment.equals("this")) {
+
+                write(pushTemplate1("THIS", index, false));
+
+            } else if (segment.equals("that")) {
+
+                write(pushTemplate1("THAT", index, false));
+
+            } else if (segment.equals("temp")) {
+
+                write(pushTemplate1("R5", index + 5, false));
+
+            } else if (segment.equals("pointer") && index == 0) {
+
+                write(pushTemplate1("THIS", index, true));
+
+            } else if (segment.equals("pointer") && index == 1) {
+
+                write(pushTemplate1("THAT", index, true));
+
+            } else if (segment.equals("static")) {
+
+                write(pushTemplate1(String.valueOf(16 + index), index, true));
+
+            }
+
         } else if (command == CommandType.C_POP) {
-            // write assembly to file (see example 3)
-            write("@" + memLocation);
-            write("D=M");
 
-            write("@" + index);
-            write("D=D+A");
+            if (segment.equals("local")) {
 
-            write("@R13");
-            write("M=D");
+                write(popTemplate1("LCL", index, false));
 
-            // &R13 = D
-            write("@SP");
-            write("M=M-1");
+            } else if (segment.equals("argument")) {
 
-            write("@SP");
-            write("A=M");
-            write("D=M");
+                write(popTemplate1("ARG", index, false));
 
-            write("@R13");
-            write("A=M");
-            write("M=D");
+            } else if (segment.equals("this")) {
 
+                write(popTemplate1("THIS", index, false));
+
+            } else if (segment.equals("that")) {
+
+                write(popTemplate1("THAT", index, false));
+
+            } else if (segment.equals("temp")) {
+                // per book specification we take the index + 5
+                write(popTemplate1("R5", index + 5, false));
+
+            } else if (segment.equals("pointer") && index == 0) {
+
+                write(popTemplate1("THIS", index, true));
+
+            } else if (segment.equals("pointer") && index == 1) {
+
+                write(popTemplate1("THAT", index, true));
+
+            } else if (segment.equals("static")) {
+
+                write(popTemplate1(String.valueOf(16 + index), index, true));
+
+            }
+        } else {
+            throw new IllegalArgumentException("Call writePushPop() for a non-pushpop command");
         }
-
-        return;
     }
 
-    void writeVmCommand(String command) throws IOException {
+    /**
+     * template for add sub and logical or
+     *
+     * @return
+     */
+    private String arithTemplate1() {
+        return "@SP\n" +
+                "AM=M-1\n" +
+                "D=M\n" +
+                "A=A-1\n";
+    }
+
+    /**
+     * template for gt lt eq
+     *
+     * @param type JLE JGT JEQ
+     * @return
+     */
+    private String arithTemplate2(String type) {
+        return "@SP\n" +
+                "AM=M-1\n" +
+                "D=M\n" +
+                "A=A-1\n" +
+                "D=M-D\n" +
+                "@FALSE" + arthJumpFlag + "\n" +
+                "D;" + type + "\n" +
+                "@SP\n" +
+                "A=M-1\n" +
+                "M=-1\n" +
+                "@CONTINUE" + arthJumpFlag + "\n" +
+                "0;JMP\n" +
+                "(FALSE" + arthJumpFlag + ")\n" +
+                "@SP\n" +
+                "A=M-1\n" +
+                "M=0\n" +
+                "(CONTINUE" + arthJumpFlag + ")\n";
+    }
+
+
+    /**
+     * template for push local,this,that,argument,temp,pointer,static
+     *
+     * @param segment
+     * @param index
+     * @param isDirect (is this command direct addressing?)
+     * @return
+     */
+    private String pushTemplate1(String segment, int index, boolean isDirect) {
+        // when it's a pointer, read the data stored in THIS or THAT
+        // when its static, read the data stored in that address
+        String noPointerCode = (isDirect) ? "" : "@" + index + "\n" + "A=D+A\nD=M\n";
+
+        return "@" + segment + "\n" +
+                "D=M\n" +
+                noPointerCode +
+                "@SP\n" +
+                "A=M\n" +
+                "M=D\n" +
+                "@SP\n" +
+                "M=M+1\n";
+    }
+
+    /**
+     * template for pop local,this,that,argument,temp,pointer,static
+     *
+     * @param segment
+     * @param index
+     * @param isDirect (is this command direct addressing?)
+     * @return
+     */
+    private String popTemplate1(String segment, int index, boolean isDirect) {
+        // when it is a pointer R13 will store the address of THIS or THAT
+        // when it is a static R13 will store the index address
+        String noPointerCode = (isDirect) ? "D=A\n" : "D=M\n@" + index + "\nD=D+A\n";
+
+        return "@" + segment + "\n" +
+                noPointerCode +
+                "@R13\n" +
+                "M=D\n" +
+                "@SP\n" +
+                "AM=M-1\n" +
+                "D=M\n" +
+                "@R13\n" +
+                "A=M\n" +
+                "M=D\n";
+    }
+
+
+    void writeVmComment(String command) throws IOException {
         bw.write("// " + command);
         bw.newLine();
         return;
     }
+
+
+    void write(String command) throws IOException {
+        bw.write(command);
+    }
+
 
     void close() throws IOException {
         bw.close();

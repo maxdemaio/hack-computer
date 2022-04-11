@@ -1,4 +1,3 @@
-import java.io.FileNotFoundException;
 import java.io.IOException;
 
 public class VmTranslator {
@@ -22,7 +21,7 @@ public class VmTranslator {
             }
 
             // Write comment of VM lang to ASM file
-            myCodeWriter.writeVmCommand(myParser.getCurrentCommand());
+            myCodeWriter.writeVmComment(myParser.getCurrentCommand());
 
             // commandType
             CommandType cType = myParser.commandType();
@@ -31,18 +30,18 @@ public class VmTranslator {
             // This is so we can check if changed later
             String arg1 = null;
             int arg2 = -1;
-            String location = null;
+            String segement = null;
 
             // arg1
             if (cType != CommandType.C_RETURN) {
                 arg1 = myParser.arg1();
             }
 
-            // location
+            // segment
             if (cType != CommandType.C_ARITHMETIC ||
                     cType == CommandType.C_FUNCTION
                     || cType == CommandType.C_CALL) {
-                location = myParser.location();
+                segement = myParser.segement();
             }
 
             // arg2
@@ -52,14 +51,11 @@ public class VmTranslator {
                 arg2 = myParser.arg2();
             }
 
-            // push/pop write
+            // push/pop or arith write
             if (cType == CommandType.C_POP ||
                     cType == CommandType.C_PUSH) {
-                myCodeWriter.writePushPop(cType, arg2, location);
-            }
-
-            // arith write
-            if (cType == CommandType.C_ARITHMETIC) {
+                myCodeWriter.writePushPop(cType, segement, arg2);
+            } else {
                 myCodeWriter.writeArithmetic(currentCommand);
             }
 
