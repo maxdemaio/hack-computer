@@ -1,5 +1,6 @@
 import java.io.IOException;
 
+
 public class VmTranslator {
     public static void main(String[] args) throws IOException {
         // TODO: we should use the cmd line arg
@@ -65,4 +66,18 @@ public class VmTranslator {
         myParser.close();
         myCodeWriter.close();
     }
+}
+
+enum CommandType {
+    C_ARITHMETIC,
+    C_LOGICAL,
+    C_COMPARE,
+    C_PUSH,
+    C_POP,
+    C_LABEL,
+    C_GOTO,
+    C_IF,
+    C_FUNCTION,
+    C_RETURN,
+    C_CALL
 }
