@@ -12,6 +12,7 @@ Throughout this project I published a series of blog posts:
 - [Nand to Tetris - Machine Language](https://www.maxdemaio.com/posts/machine-language)
 - [Nand to Tetris - Building an Assembler](https://www.maxdemaio.com/posts/assemblers)
 - [Nand to Tetris - Virtual Machine I](https://www.maxdemaio.com/posts/vm-stack)
+- [Nand to Tetris - Virtual Machine II](https://www.maxdemaio.com/posts/vm2)
 
 ## Hardware platform
 
