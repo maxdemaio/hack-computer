@@ -16,9 +16,10 @@ Throughout this project I published a series of blog posts:
 
 ## Hardware platform
 
-### 1. Boolean Logic
+### 1. Boolean Logic and Gates
 
-Various basic logic gates are introduced, and all gates are implemented based on nand gates
+Various basic logic gates (built from transistors) are introduced, and all gates are implemented based on nand/nor gates. Every Boolean
+function can be expressed using three Boolean operators: And, Or, and Not.
 
 - and and16
 - dmux dmux4way dmux8way
@@ -29,7 +30,7 @@ Various basic logic gates are introduced, and all gates are implemented based on
 
 ### 2. Boolean Arithmetic
 
-- Binary number
+- Binary
 - Binary addition
 - Half adder
 - Full adder
@@ -42,7 +43,7 @@ Various basic logic gates are introduced, and all gates are implemented based on
 #### Combination Chip
 
 - Boolean chip
-- Arithmetic chip
+- Arithmetic chip (ALU)
 
 #### Sequential Chip
 
