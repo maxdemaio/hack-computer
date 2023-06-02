@@ -6,13 +6,13 @@ Implementation of a computer system as described in the book "The Elements of Co
 
 Throughout this project I published a series of blog posts:
 
-- [Nand to Tetris - Boolean Functions & Gate Logic](https://www.maxdemaio.com/posts/boolean-functions-and-gate-logic)
-- [Nand to Tetris - Boolean Arithmetic & the ALU](https://www.maxdemaio.com/posts/boolean-arithmetic-alu)
-- [Nand to Tetris - Memory](https://www.maxdemaio.com/posts/memory)
-- [Nand to Tetris - Machine Language](https://www.maxdemaio.com/posts/machine-language)
-- [Nand to Tetris - Building an Assembler](https://www.maxdemaio.com/posts/assemblers)
-- [Nand to Tetris - Virtual Machine I](https://www.maxdemaio.com/posts/vm-stack)
-- [Nand to Tetris - Virtual Machine II](https://www.maxdemaio.com/posts/vm2)
+- [Nand to Tetris - Boolean Functions & Gate Logic](https://www.maxdemaio.com/blog/boolean-functions-and-gate-logic)
+- [Nand to Tetris - Boolean Arithmetic & the ALU](https://www.maxdemaio.com/blog/boolean-arithmetic-alu)
+- [Nand to Tetris - Memory](https://www.maxdemaio.com/blog/memory)
+- [Nand to Tetris - Machine Language](https://www.maxdemaio.com/blog/machine-language)
+- [Nand to Tetris - Building an Assembler](https://www.maxdemaio.com/blog/assemblers)
+- [Nand to Tetris - Virtual Machine I](https://www.maxdemaio.com/blog/vm-stack)
+- [Nand to Tetris - Virtual Machine II](https://www.maxdemaio.com/blog/vm2)
 
 ---
 
