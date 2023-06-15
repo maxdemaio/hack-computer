@@ -5,7 +5,7 @@ class Bat {
   field int size;         // length of this square, in pixels
 
   /** Constructs a new bat with a given location size and caught as false. */
-  constructor Bat new(int Ax, int Ay, int Asize) {
+  constructor Bat new(int Ax, int Ay, int Asize, Random randomIn) {
     let x = Ax;
     let y = Ay;
     let size = Asize;
@@ -14,7 +14,13 @@ class Bat {
     do draw();
     return this;
   }
-  
+
+  /** Disposes this bat. */
+  method void dispose() {
+    do Memory.deAlloc(this);
+    return;
+  }
+
   /** Draws the bat on the screen. */
   method void draw() {
     do Screen.setColor(true);

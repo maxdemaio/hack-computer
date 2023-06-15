@@ -10,10 +10,11 @@
  * When the game starts, a square of 30 by 30 pixels is shown at the
  * top-left corner of the screen. The user controls the square as follows.
  * The 4 arrow keys are used to move the square up, down, left, and right.
- * The 'z' and 'x' keys are used, respectively, to decrement and increment
+ * The goal is to catch all 5 bats that move around randomly
+ * The bats are 10x10 squares on the screen that start in the center
+ * The bats move around randomly
  * the square's size. The 'q' key is used to quit the game.
  */
-
 class BatCatcherGame {
   field Cat cat;
   field int direction; // the cat's current direction: 
@@ -33,7 +34,7 @@ class BatCatcherGame {
     let caughtBats = 0;
     var int i;
     for (i = 0; i < numBats; i = i + 1) {
-        let random = Random.new(42 + i);  // Create a unique instance of the Random class for each Bat
+        let random = Random.new(42 + (i * 12));  // Create a unique instance of the Random class for each Bat
         // Creates 10 by 10 pixel squares and positions them at (256...260, 128) (middle)
         let bats[i] = Bat.new(256 + i, 128, 10, random);
     }
@@ -51,14 +52,6 @@ class BatCatcherGame {
     return;
   }
 
-  /** Moves all bats randomly. */
-  method void moveBats() {
-    var int i;
-    for (i = 0; i < numBats; i = i + 1) {
-        do bats[i].moveRandomly();
-    }
-  }
-
   /** Checks if the cat has caught any bats. */
   method void checkCollision() {
     var int i;
@@ -70,8 +63,16 @@ class BatCatcherGame {
     }
   }
 
+  /** Moves all bats randomly. */
+  method void moveBats() {
+    var int i;
+    for (i = 0; i < numBats; i = i + 1) {
+        do bats[i].moveRandomly();
+    }
+  }
+
   /** Moves the square in the current direction. */
-  method void moveSquare() {
+  method void moveCat() {
     if (direction = 1) { do cat.moveUp(); }
     if (direction = 2) { do cat.moveDown(); }
     if (direction = 3) { do cat.moveLeft(); }
@@ -90,7 +91,7 @@ class BatCatcherGame {
         // waits for a key to be pressed
         while (key = 0) {
           let key = Keyboard.keyPressed();
-          do moveSquare();
+          do moveCat();
           do moveBats();
           do checkCollision();
 
@@ -109,7 +110,7 @@ class BatCatcherGame {
         // waits for the key to be released
         while (~(key = 0)) {
           let key = Keyboard.keyPressed();
-          do moveSquare();
+          do moveCat();
           do moveBats();
           do checkCollision();
           
