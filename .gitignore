@@ -2,3 +2,4 @@
 /*/target/
 /*/src/main/java/*.class
 /*/src/main/java/*/*.class
+.DS_Store
