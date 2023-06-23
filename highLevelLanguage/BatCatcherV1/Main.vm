@@ -1,0 +1,11 @@
+function Main.main 1
+call BatCatcherGame.new 0
+pop local 0
+push local 0
+call BatCatcherGame.run 1
+pop temp 0
+push local 0
+call BatCatcherGame.dispose 1
+pop temp 0
+push constant 0
+return

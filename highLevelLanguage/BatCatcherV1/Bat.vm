@@ -1,0 +1,320 @@
+function Bat.new 0
+push constant 6
+call Memory.alloc 1
+pop pointer 0
+push argument 0
+pop this 2
+push argument 1
+pop this 3
+push argument 2
+pop this 4
+push constant 0
+pop this 1
+push argument 3
+pop this 5
+push pointer 0
+call Bat.draw 1
+pop temp 0
+push pointer 0
+return
+function Bat.getX 0
+push argument 0
+pop pointer 0
+push this 2
+return
+function Bat.getY 0
+push argument 0
+pop pointer 0
+push this 3
+return
+function Bat.getSize 0
+push argument 0
+pop pointer 0
+push this 4
+return
+function Bat.dispose 0
+push argument 0
+pop pointer 0
+push pointer 0
+call Memory.deAlloc 1
+pop temp 0
+push constant 0
+return
+function Bat.draw 0
+push argument 0
+pop pointer 0
+push constant 0
+not
+call Screen.setColor 1
+pop temp 0
+push this 2
+push this 3
+push this 2
+push this 4
+add
+push this 3
+push this 4
+add
+call Screen.drawRectangle 4
+pop temp 0
+push constant 0
+return
+function Bat.erase 0
+push argument 0
+pop pointer 0
+push constant 0
+call Screen.setColor 1
+pop temp 0
+push this 2
+push this 3
+push this 2
+push this 4
+add
+push this 3
+push this 4
+add
+call Screen.drawRectangle 4
+pop temp 0
+push constant 0
+return
+function Bat.moveUp 0
+push argument 0
+pop pointer 0
+push this 3
+push constant 1
+gt
+if-goto IF_TRUE0
+goto IF_FALSE0
+label IF_TRUE0
+push constant 0
+call Screen.setColor 1
+pop temp 0
+push this 2
+push this 3
+push this 4
+add
+push constant 1
+sub
+push this 2
+push this 4
+add
+push this 3
+push this 4
+add
+call Screen.drawRectangle 4
+pop temp 0
+push this 3
+push constant 2
+sub
+pop this 3
+push constant 0
+not
+call Screen.setColor 1
+pop temp 0
+push this 2
+push this 3
+push this 2
+push this 4
+add
+push this 3
+push constant 1
+add
+call Screen.drawRectangle 4
+pop temp 0
+label IF_FALSE0
+push constant 0
+return
+function Bat.moveDown 0
+push argument 0
+pop pointer 0
+push this 3
+push this 4
+add
+push constant 254
+lt
+if-goto IF_TRUE0
+goto IF_FALSE0
+label IF_TRUE0
+push constant 0
+call Screen.setColor 1
+pop temp 0
+push this 2
+push this 3
+push this 2
+push this 4
+add
+push this 3
+push constant 1
+add
+call Screen.drawRectangle 4
+pop temp 0
+push this 3
+push constant 2
+add
+pop this 3
+push constant 0
+not
+call Screen.setColor 1
+pop temp 0
+push this 2
+push this 3
+push this 4
+add
+push constant 1
+sub
+push this 2
+push this 4
+add
+push this 3
+push this 4
+add
+call Screen.drawRectangle 4
+pop temp 0
+label IF_FALSE0
+push constant 0
+return
+function Bat.moveLeft 0
+push argument 0
+pop pointer 0
+push this 2
+push constant 1
+gt
+if-goto IF_TRUE0
+goto IF_FALSE0
+label IF_TRUE0
+push constant 0
+call Screen.setColor 1
+pop temp 0
+push this 2
+push this 4
+add
+push constant 1
+sub
+push this 3
+push this 2
+push this 4
+add
+push this 3
+push this 4
+add
+call Screen.drawRectangle 4
+pop temp 0
+push this 2
+push constant 2
+sub
+pop this 2
+push constant 0
+not
+call Screen.setColor 1
+pop temp 0
+push this 2
+push this 3
+push this 2
+push constant 1
+add
+push this 3
+push this 4
+add
+call Screen.drawRectangle 4
+pop temp 0
+label IF_FALSE0
+push constant 0
+return
+function Bat.moveRight 0
+push argument 0
+pop pointer 0
+push this 2
+push this 4
+add
+push constant 510
+lt
+if-goto IF_TRUE0
+goto IF_FALSE0
+label IF_TRUE0
+push constant 0
+call Screen.setColor 1
+pop temp 0
+push this 2
+push this 3
+push this 2
+push constant 1
+add
+push this 3
+push this 4
+add
+call Screen.drawRectangle 4
+pop temp 0
+push this 2
+push constant 2
+add
+pop this 2
+push constant 0
+not
+call Screen.setColor 1
+pop temp 0
+push this 2
+push this 4
+add
+push constant 1
+sub
+push this 3
+push this 2
+push this 4
+add
+push this 3
+push this 4
+add
+call Screen.drawRectangle 4
+pop temp 0
+label IF_FALSE0
+push constant 0
+return
+function Bat.moveRandomly 1
+push argument 0
+pop pointer 0
+push this 5
+push constant 3
+call Random.randRange 2
+pop local 0
+push local 0
+push constant 0
+eq
+if-goto IF_TRUE0
+goto IF_FALSE0
+label IF_TRUE0
+push pointer 0
+call Bat.moveUp 1
+pop temp 0
+label IF_FALSE0
+push local 0
+push constant 1
+eq
+if-goto IF_TRUE1
+goto IF_FALSE1
+label IF_TRUE1
+push pointer 0
+call Bat.moveDown 1
+pop temp 0
+label IF_FALSE1
+push local 0
+push constant 2
+eq
+if-goto IF_TRUE2
+goto IF_FALSE2
+label IF_TRUE2
+push pointer 0
+call Bat.moveLeft 1
+pop temp 0
+label IF_FALSE2
+push local 0
+push constant 3
+eq
+if-goto IF_TRUE3
+goto IF_FALSE3
+label IF_TRUE3
+push pointer 0
+call Bat.moveRight 1
+pop temp 0
+label IF_FALSE3
+push constant 0
+return

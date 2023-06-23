@@ -1,0 +1,127 @@
+/**
+ * Implements the Bat Catcher game.
+ * This simple game allows the user to move a black square (cat) around
+ * the screen, and change the square's size during the movement.
+ * When the game starts, a square of 30 by 30 pixels is shown at the
+ * top-left corner of the screen. The user controls the square as follows.
+ * The 4 arrow keys are used to move the cat up, down, left, and right.
+ * The 'q' key is used to quit the game.
+ */
+
+class BatCatcherGame {
+   field Cat cat; // the cat of this game
+   field int direction; // the cat's current direction: 
+                        // 0=none, 1=up, 2=down, 3=left, 4=right
+   field Bat bat;
+   field int batDirection;
+   field Random random;
+
+   /** Constructs a new BatCatcherGame. */
+   constructor BatCatcherGame new() {
+      // Creates a 30 by 30 pixels cat and positions it at the top-left
+      // of the screen.
+      let cat = Cat.new(0, 0, 30);
+      let random = Random.new(42);  // Create a unique instance of the Random class for each Bat
+      // Creates 10 by 10 pixel squares and positions them at (256...300, 128) (middle)
+      let bat = Bat.new(256, 128, 10, random);
+      let direction = 0;  // initial state is no movement
+      let batDirection = 0;
+      return this;
+   }
+
+   /** Disposes this game. */
+   method void dispose() {
+      do cat.dispose();
+      do bat.dispose();
+      do Memory.deAlloc(this);
+      return;
+   }
+
+   /** Moves the cat in the current direction. */
+   method void moveCat() {
+      if (direction = 1) { do cat.moveUp(); }
+      if (direction = 2) { do cat.moveDown(); }
+      if (direction = 3) { do cat.moveLeft(); }
+      if (direction = 4) { do cat.moveRight(); }
+      do Sys.wait(5);  // delays the next movement
+      return;
+   }
+
+   method void moveBat() {
+      /** TODO: add an if statement above here that checks if we are at an edge 
+      make the else case all below*/
+      if (batDirection = 0) { do bat.moveUp(); }
+      if (batDirection = 1) { do bat.moveDown(); }
+      if (batDirection = 2) { do bat.moveLeft(); }
+      if (batDirection = 3) { do bat.moveRight(); }
+      do Sys.wait(5);  // delays the next movement
+      return;
+   }
+   
+  /** Checks if the cat touches a given bat. */
+  method boolean touches() {
+   // init variables
+   var int catX;
+   var int catY;
+   var int batX;
+   var int batY;
+   var int catSize;
+   var int batSize;
+   let catX    = cat.getX();
+   let catY    = cat.getY();
+   let catSize = cat.getSize();
+   let batX    = bat.getX();
+   let batY    = bat.getY();
+   let batSize = bat.getSize();
+
+    // Check if the cat's boundaries intersect with the bat's boundaries
+   //  if ((catX < bat.getX() + batSize) &
+   //      (catX + size > batX) &
+   //      (catY < bat.getY() + batSize) &
+   //      (catY + size > batY)) {
+   //    return true;  // The cat touches the bat
+   //  } else {
+   //    return false; // The cat does not touch the bat
+   //  }
+   return false;
+  }
+
+   /** Runs the game: handles the user's inputs and moves the cat accordingly */
+   method void run() {
+      var boolean touch;
+      var char key;  // the key currently pressed by the user
+      var boolean exit;
+      let exit = false;
+      
+      while (~exit) {
+         // waits for a key to be pressed
+         let batDirection = random.randRange(3);
+         while (key = 0) {
+            let touch = touches();
+            let key = Keyboard.keyPressed();
+            do moveCat();
+            do moveBat();
+            // cat touches the bat, game over
+            if (touch) {
+               return;
+            }
+         }
+         if (key = 81)  { let exit = true; }     // q key
+         if (key = 131) { let direction = 1; }   // up arrow
+         if (key = 133) { let direction = 2; }   // down arrow
+         if (key = 130) { let direction = 3; }   // left arrow
+         if (key = 132) { let direction = 4; }   // right arrow
+         
+         // waits for the key to be released
+         while (~(key = 0)) {
+            let key = Keyboard.keyPressed();
+            do moveCat();
+            do moveBat();
+         }
+     } // while
+     return;
+   }
+}
+
+
+
