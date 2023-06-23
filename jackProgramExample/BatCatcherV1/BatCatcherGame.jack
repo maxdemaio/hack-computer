@@ -75,15 +75,14 @@ class BatCatcherGame {
    let batSize = bat.getSize();
 
     // Check if the cat's boundaries intersect with the bat's boundaries
-   //  if ((catX < bat.getX() + batSize) &
-   //      (catX + size > batX) &
-   //      (catY < bat.getY() + batSize) &
-   //      (catY + size > batY)) {
-   //    return true;  // The cat touches the bat
-   //  } else {
-   //    return false; // The cat does not touch the bat
-   //  }
-   return false;
+    if ((catX < bat.getX() + batSize) &
+        (catX + catSize > batX) &
+        (catY < bat.getY() + batSize) &
+        (catY + catSize > batY)) {
+      return true;  // The cat touches the bat
+    } else {
+      return false; // The cat does not touch the bat
+    }
   }
 
    /** Runs the game: handles the user's inputs and moves the cat accordingly */
@@ -103,6 +102,7 @@ class BatCatcherGame {
             do moveBat();
             // cat touches the bat, game over
             if (touch) {
+               do Output.printString("Bat has been caught!");
                return;
             }
          }
@@ -119,6 +119,7 @@ class BatCatcherGame {
             do moveBat();
          }
      } // while
+     do Output.printString("Game over");
      return;
    }
 }

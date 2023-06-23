@@ -153,8 +153,42 @@ pop local 3
 push this 2
 call Bat.getSize 1
 pop local 5
+push local 0
+push this 2
+call Bat.getX 1
+lt
+push local 5
+add
+push local 0
+push local 4
+add
+push local 2
+gt
+and
+push local 1
+push this 2
+call Bat.getY 1
+lt
+push local 5
+add
+and
+push local 1
+push local 4
+add
+push local 3
+gt
+and
+if-goto IF_TRUE0
+goto IF_FALSE0
+label IF_TRUE0
+push constant 0
+not
+return
+goto IF_END0
+label IF_FALSE0
 push constant 0
 return
+label IF_END0
 function BatCatcherGame.run 3
 push argument 0
 pop pointer 0
