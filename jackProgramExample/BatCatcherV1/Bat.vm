@@ -1,5 +1,5 @@
 function Bat.new 0
-push constant 6
+push constant 5
 call Memory.alloc 1
 pop pointer 0
 push argument 0
@@ -10,8 +10,6 @@ push argument 2
 pop this 4
 push constant 0
 pop this 1
-push argument 3
-pop this 5
 push pointer 0
 call Bat.draw 1
 pop temp 0
@@ -267,54 +265,5 @@ add
 call Screen.drawRectangle 4
 pop temp 0
 label IF_FALSE0
-push constant 0
-return
-function Bat.moveRandomly 1
-push argument 0
-pop pointer 0
-push this 5
-push constant 3
-call Random.randRange 2
-pop local 0
-push local 0
-push constant 0
-eq
-if-goto IF_TRUE0
-goto IF_FALSE0
-label IF_TRUE0
-push pointer 0
-call Bat.moveUp 1
-pop temp 0
-label IF_FALSE0
-push local 0
-push constant 1
-eq
-if-goto IF_TRUE1
-goto IF_FALSE1
-label IF_TRUE1
-push pointer 0
-call Bat.moveDown 1
-pop temp 0
-label IF_FALSE1
-push local 0
-push constant 2
-eq
-if-goto IF_TRUE2
-goto IF_FALSE2
-label IF_TRUE2
-push pointer 0
-call Bat.moveLeft 1
-pop temp 0
-label IF_FALSE2
-push local 0
-push constant 3
-eq
-if-goto IF_TRUE3
-goto IF_FALSE3
-label IF_TRUE3
-push pointer 0
-call Bat.moveRight 1
-pop temp 0
-label IF_FALSE3
 push constant 0
 return

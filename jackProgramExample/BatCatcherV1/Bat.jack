@@ -3,15 +3,13 @@ class Bat {
   field boolean isCaught; // if the bat has been caught or not
   field int x, y;         // position on the screen
   field int size;         // length of this square, in pixels
-  field Random random;
 
   /** Constructs a new bat with a given location size and caught as false. */
-  constructor Bat new(int Ax, int Ay, int Asize, Random randIn) {
+  constructor Bat new(int Ax, int Ay, int Asize) {
     let x = Ax;
     let y = Ay;
     let size = Asize;
     let isCaught = false;
-    let random = randIn;
     do draw();
     return this;
   }
@@ -90,25 +88,6 @@ class Bat {
         let x = x + 2;
         do Screen.setColor(true);
         do Screen.drawRectangle((x + size) - 1, y, x + size, y + size);
-    }
-    return;
-  }
-
-  method void moveRandomly() {
-    // Generate a random number between 0 and 3
-    var int direction;
-    let direction = random.randRange(3);
-    if (direction = 0) {
-      do moveUp();
-    }
-    if (direction = 1) {
-      do moveDown();
-    }
-    if (direction = 2) {
-      do moveLeft();
-    } 
-    if (direction = 3) {
-      do moveRight();
     }
     return;
   }

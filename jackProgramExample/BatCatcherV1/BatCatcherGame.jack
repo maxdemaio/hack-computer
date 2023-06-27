@@ -9,119 +9,225 @@
  */
 
 class BatCatcherGame {
-   field Cat cat; // the cat of this game
-   field int direction; // the cat's current direction: 
+  field Cat cat; // the cat of this game
+  field int direction; // the cat's current direction: 
                         // 0=none, 1=up, 2=down, 3=left, 4=right
-   field Bat bat;
-   field int batDirection;
-   field Random random;
+  field Bat bat;
+  field int batDirection;
+  field Random random;
 
-   /** Constructs a new BatCatcherGame. */
-   constructor BatCatcherGame new() {
-      // Creates a 30 by 30 pixels cat and positions it at the top-left
-      // of the screen.
-      let cat = Cat.new(0, 0, 30);
-      let random = Random.new(42);  // Create a unique instance of the Random class for each Bat
-      // Creates 10 by 10 pixel squares and positions them at (256...300, 128) (middle)
-      let bat = Bat.new(256, 128, 10, random);
-      let direction = 0;  // initial state is no movement
-      let batDirection = 0;
-      return this;
-   }
+  /** Constructs a new BatCatcherGame. */
+  constructor BatCatcherGame new() {
+    // Creates a 30 by 30 pixels cat and positions it at the top-left
+    // of the screen.
+    let cat = Cat.new(0, 0, 30);
+    let random = Random.new(42);  // Create a unique instance of the Random class for each Bat
+    // Creates 10 by 10 pixel squares and positions them at (256, 128) (middle)
+    let bat = Bat.new(500, 0, 10);
+    let direction = 0;  // initial state is no movement
+    let batDirection = 0;
+    return this;
+  }
 
-   /** Disposes this game. */
-   method void dispose() {
-      do cat.dispose();
-      do bat.dispose();
-      do Memory.deAlloc(this);
-      return;
-   }
+  /** Disposes this game. */
+  method void dispose() {
+    do cat.dispose();
+    do bat.dispose();
+    do Memory.deAlloc(this);
+    return;
+  }
 
-   /** Moves the cat in the current direction. */
-   method void moveCat() {
-      if (direction = 1) { do cat.moveUp(); }
-      if (direction = 2) { do cat.moveDown(); }
-      if (direction = 3) { do cat.moveLeft(); }
-      if (direction = 4) { do cat.moveRight(); }
-      do Sys.wait(5);  // delays the next movement
-      return;
-   }
+  /** Moves the cat in the current direction. */
+  method void moveCat() {
+    if (direction = 1) { do cat.moveUp(); }
+    if (direction = 2) { do cat.moveDown(); }
+    if (direction = 3) { do cat.moveLeft(); }
+    if (direction = 4) { do cat.moveRight(); }
+    do Sys.wait(5);  // delays the next movement
+    return;
+  }
 
-   method void moveBat() {
-      /** TODO: add an if statement above here that checks if we are at an edge 
-      make the else case all below*/
-      if (batDirection = 0) { do bat.moveUp(); }
-      if (batDirection = 1) { do bat.moveDown(); }
-      if (batDirection = 2) { do bat.moveLeft(); }
-      if (batDirection = 3) { do bat.moveRight(); }
-      do Sys.wait(5);  // delays the next movement
-      return;
-   }
+  // keeps moving the cat/bat even when key not pressed
+  method void moveBat() {
+    if (batDirection = 0) { do bat.moveUp(); }
+    if (batDirection = 1) { do bat.moveDown(); }
+    if (batDirection = 2) { do bat.moveLeft(); }
+    if (batDirection = 3) { do bat.moveRight(); }
+    do Sys.wait(5);  // delays the next movement
+    return;
+  }
    
   /** Checks if the cat touches a given bat. */
   method boolean touches() {
-   // init variables
-   var int catX;
-   var int catY;
-   var int batX;
-   var int batY;
-   var int catSize;
-   var int batSize;
-   let catX    = cat.getX();
-   let catY    = cat.getY();
-   let catSize = cat.getSize();
-   let batX    = bat.getX();
-   let batY    = bat.getY();
-   let batSize = bat.getSize();
+    // init variables
+    var int catXmin;
+    var int catYmin;
+    var int catXmax;
+    var int catYmax;
+    var int batXmin;
+    var int batXmax;
+    var int batYmin;
+    var int batYmax;
+    var boolean check1;
+    var boolean check2;
+    var boolean check3;
+    var boolean check4;
+    var boolean check5;
+    var boolean check6;
+    var boolean check7;
+    var boolean check8;
+
+    let check1 = false;
+    let check2 = false;
+    let check3 = false;
+    let check4 = false;
+    let check5 = false;
+    let check6 = false;
+    let check7 = false;
+    let check8 = false;
+
+    let catXmin = cat.getX();
+    let catXmax = cat.getX() + cat.getSize();
+    let catYmin = cat.getY();
+    let catYmax = cat.getY() + cat.getSize();
+    let batXmin = bat.getX();
+    let batXmax = bat.getX() + bat.getSize();
+    let batYmin = bat.getY();
+    let batYmax = bat.getY() + bat.getSize();
+
+    // do Output.printString("cat X min");
+    // do Output.printInt(catXmin);
+    // do Output.println();
+    // do Output.printString("cat X max");
+    // do Output.printInt(catXmax);
+    // do Output.println();
+    // do Output.printString("cat Y min");
+    // do Output.printInt(catYmin);
+    // do Output.println();
+    // do Output.printString("cat Y max");
+    // do Output.printInt(catYmax);
+    // do Output.println();
+
+    // do Output.printString("bat X min");
+    // do Output.printInt(batXmin);
+    // do Output.println();
+    // do Output.printString("bat X max");
+    // do Output.printInt(batXmax);
+    // do Output.println();
+    // do Output.printString("bat Y min");
+    // do Output.printInt(batYmin);
+    // do Output.println();
+    // do Output.printString("bat Y max");
+    // do Output.printInt(batYmax);
+    // do Output.println();
+    // do Output.println();
 
     // Check if the cat's boundaries intersect with the bat's boundaries
-    if ((catX < bat.getX() + batSize) &
-        (catX + catSize > batX) &
-        (catY < bat.getY() + batSize) &
-        (catY + catSize > batY)) {
-      return true;  // The cat touches the bat
-    } else {
-      return false; // The cat does not touch the bat
+    if (catXmin < batXmin) {
+      let check1 = true;
     }
+    if (catXmin = batXmin) {
+      let check2 = true;
+    }
+    if (~(check1 | check2)) {
+      return false;
+    }
+
+    if (catXmax > batXmax) {
+      let check3 = true;
+    }
+    if (catXmax = batXmax) {
+      let check4 = true;
+    }
+    if (~(check3 | check4)) {
+      return false;
+    }
+
+    if (catYmin < batYmin) {
+      let check5 = true;
+    }
+    if (catYmin = batYmin) {
+      let check6 = true;
+    }
+    if (~(check5 | check6)) {
+      return false;
+    }
+
+    if (catYmax > batYmax) {
+      let check7 = true;
+    }
+    if (catYmax = batYmax) {
+      let check8 = true;
+    }
+    if (~(check7 | check8)) {
+      return false;
+    }
+
+    return true;
   }
 
    /** Runs the game: handles the user's inputs and moves the cat accordingly */
-   method void run() {
-      var boolean touch;
-      var char key;  // the key currently pressed by the user
-      var boolean exit;
-      let exit = false;
+  method void run() {
+    var boolean touch;
+    var char key;  // the key currently pressed by the user
+    var boolean exit;
+
+    var int catXmin;
+    var int catYmin;
+    var int catXmax;
+    var int catYmax;
+    var int batXmin;
+    var int batXmax;
+    var int batYmin;
+    var int batYmax;
+
+    let exit = false;
+
+    while (~exit) {
+      while (key = 0) {
+        // key not being pressed
+        let key = Keyboard.keyPressed();
+        // keeps moving the cat/bat even in same direction
+        // even when key not pressed
+        do moveCat(); 
+        do moveBat();
+
+        // cat touches the bat, game over
+        let touch = touches();
+        if (touch) {
+          do Output.printString("Bat has been caught!");
+          return;
+        }
+      }
+
+
+
+      if (key = 81)  { let exit = true; }     // q key
+      if (key = 131) { let direction = 1; }   // up arrow
+      if (key = 133) { let direction = 2; }   // down arrow
+      if (key = 130) { let direction = 3; }   // left arrow
+      if (key = 132) { let direction = 4; }   // right arrow
+      let batDirection = random.randRange(3);
+
+      while (~(key = 0)) {
+        // key pressed
+        let key = Keyboard.keyPressed();
+       
+        // cat touches the bat, game over
+        let touch = touches();
+        if (touch) {
+          do Output.printString("Bat has been caught!");
+          return;
+        }
+
+        do moveCat();
+        do moveBat();
+      }
       
-      while (~exit) {
-         // waits for a key to be pressed
-         let batDirection = random.randRange(3);
-         while (key = 0) {
-            let touch = touches();
-            let key = Keyboard.keyPressed();
-            do moveCat();
-            do moveBat();
-            // cat touches the bat, game over
-            if (touch) {
-               do Output.printString("Bat has been caught!");
-               return;
-            }
-         }
-         if (key = 81)  { let exit = true; }     // q key
-         if (key = 131) { let direction = 1; }   // up arrow
-         if (key = 133) { let direction = 2; }   // down arrow
-         if (key = 130) { let direction = 3; }   // left arrow
-         if (key = 132) { let direction = 4; }   // right arrow
-         
-         // waits for the key to be released
-         while (~(key = 0)) {
-            let key = Keyboard.keyPressed();
-            do moveCat();
-            do moveBat();
-         }
-     } // while
-     do Output.printString("Game over");
-     return;
-   }
+    } // while
+    do Output.printString("Game over");
+    return;
+  }
 }
 
 
