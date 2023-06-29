@@ -104,6 +104,27 @@ We present a VM language consisting of four types of commands: arithmetic, memor
 
 ### 10. Compiler I: Syntax analysis
 
+- Background
+  - Compilers usually consist of two modules: syntax analysis and code generation.
+  - Syntax analysis is usually divided into two modules: tokenizing and parsing.
+- Lexical Analysis
+  - Lexical analysis is grouping the characters into tokens (as defined by the language syntax), while ignoring white space and comments. This could also be called scanning or tokenizing.
+- Grammars
+  - To process the tokens, we need to group them based on grammar rules into language constructs such as variable declarations, statements, and expressions.
+  - A context-free grammar is a set of rules specifying how syntactic elements in some language can be formed from simpler ones.
+  - The grammar specifies allowable ways to combine tokens, also called terminals, into higher-level syntactic elements, also called non-terminals.
+- Parsing
+  - To check whether a grammar ‘‘accepts’’ an input text as valid, we parse it. This means determining the exact correspondence between the text and the rules of a given grammar.
+  - Since the grammar rules are hierarchical, the output of the parser can be described in a tree-oriented data structure called a parse tree or a derivation tree.
+  - Recursive Descent Parsing: for every rule in the grammar describing a non-terminal, the parser program has a recursive routine designed to parse that non-terminal.
+  - Whenever non-terminal has several alternative derivation rules and the first token suffices to resolve which rule to use without ambiguity, the grammar is called LL(0).
+- The Jack Language Grammar
+  - Formal spec of the language, aimed at Jack compiler developers
+- A Syntax Analyzer for the Jack Language
+  - At each point in the parsing process, knowing the structural identity of the program element that it is currently reading in a complete recursive sense.
+- The Syntax Analyzer’s Input
+- The Syntax Analyzer’s Output
+
 ### 11. Compiler II: code generation
 
 ### 12. Operating System
