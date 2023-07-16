@@ -13,6 +13,7 @@ Throughout this project I published a series of blog posts:
 - [Nand to Tetris - Building an Assembler](https://www.maxdemaio.com/blog/assemblers)
 - [Nand to Tetris - Virtual Machine I](https://www.maxdemaio.com/blog/vm-stack)
 - [Nand to Tetris - Virtual Machine II](https://www.maxdemaio.com/blog/vm2)
+- [Nand to Tetris - Compiler I / Syntax Analysis](https://www.maxdemaio.com/blog/compiler-i)
 
 ---
 
